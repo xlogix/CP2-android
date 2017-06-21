@@ -7,6 +7,8 @@
     android:fitsSystemWindows="true"
     tools:context="xyz.fnplus.clientproject.ScrollingActivity">
 
+    <include layout="@layout/content_scrolling" />
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -31,8 +33,6 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_scrolling" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -3,6 +3,21 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
+
+    /*signingConfigs {
+        release {
+            try {
+                storeFile file("android-key.jks")
+                storePassword KEYSTORE_PASSWORD
+                keyAlias KEYSTORE_ALIAS
+                keyPassword KEY_PASSWORD
+                v2SigningEnabled true
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD, KEYSTORE_ALIAS and KEY_PASSWORD in gradle.properties." + ex)
+            }
+        }
+    }*/
+
     defaultConfig {
         applicationId "xyz.fnplus.clientproject"
         minSdkVersion 16
@@ -12,10 +27,23 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            versionNameSuffix '-DEBUG'
         }
+        release {
+            minifyEnabled true
+            shrinkResources false
+            versionNameSuffix '-RELEASE'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'LICENSE.txt'
     }
 }
 
@@ -26,5 +54,13 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    // Firebase
+    compile 'com.google.firebase:firebase-core:10.2.1'
+    // DATABASE
+    compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.firebaseui:firebase-ui-database:1.2.0'
+
     testCompile 'junit:junit:4.12'
 }
+// Add to the bottom of the file
+apply plugin: 'com.google.gms.google-services'
