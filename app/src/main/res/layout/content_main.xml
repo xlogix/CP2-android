@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@drawable/gradient_main"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="xyz.fnplus.clientproject.ui.MainActivity"
@@ -54,25 +55,51 @@
             android:id="@+id/card_view_last_reading_details"
             layout="@layout/card_view_last_reading_details" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Quality Name/ Code : "
-            android:textSize="24sp" />
+            android:focusable="true"
+            android:theme="@style/EditTextTheme">
+
+            <AutoCompleteTextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:hint="Quality Name/ Code : "
+                android:textColor="@android:color/white"
+                android:textSize="24sp"/>
+        </android.support.design.widget.TextInputLayout>
 
         <include
             android:id="@+id/card_view_mess_size"
             layout="@layout/card_view_mess_size" />
 
-        <include
-            android:id="@+id/card_view_status"
-            layout="@layout/card_view_status" />
 
         <include
             android:id="@+id/card_view_emp_details"
             layout="@layout/card_view_emp_details" />
+        <include
+            android:id="@layout/card_view_readings"
+            layout="@layout/card_view_readings"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_details_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/border_button_background"
+                android:text="Save Changes"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
