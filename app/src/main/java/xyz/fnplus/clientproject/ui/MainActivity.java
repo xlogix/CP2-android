@@ -1,4 +1,4 @@
-package xyz.fnplus.clientproject;
+package xyz.fnplus.clientproject.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,23 +9,45 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ScrollingActivity extends AppCompatActivity {
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import xyz.fnplus.clientproject.R;
+
+public class MainActivity extends AppCompatActivity {
+
+    private DatabaseReference mFirebaseDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrolling);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Sending data to the server", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+        String refPath = getIntent().getStringExtra("refPath");
+
+
+
+
+
+    }
+
+    private void updateDataOnServer() {
+
     }
 
     @Override

@@ -23,3 +23,24 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Basic proguard configuration to support all the devices
+-keep class android.support.v4.** {  *; }
+
+-keep class android.support.v7.internal.** { *; }
+
+-keep interface android.support.v7.internal.** { *; }
+
+-keep class android.support.v7.** { *; }
+
+-keep interface android.support.v7.** { *; }
+
+# Remove unwanted logging for increased security
+-assumenosideeffects class android.util.Log {
+     public static boolean isLoggable(java.lang.String, int);
+     public static int v(...);
+     public static int i(...);
+     public static int w(...);
+     public static int d(...);
+     public static int e(...);
+}
