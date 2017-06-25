@@ -43,8 +43,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="4"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:text="1000000"
 
                     android:textSize="16sp"
 
@@ -80,8 +80,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="4"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:text="1000005"
+                    android:text=""
                     android:textSize="16sp"
 
                 />
@@ -100,8 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="Remark"
-                android:inputType="number"
-                android:textColor="@color/google_blue_500"/>
+                android:inputType="text"
+            />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

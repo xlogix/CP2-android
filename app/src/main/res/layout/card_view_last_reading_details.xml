@@ -31,7 +31,7 @@
                 android:id="@+id/db_last_reading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1000"
+                android:text="N/A"
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -47,9 +47,10 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/txt_last_reading_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="23/06/2016"
+                android:text="N/A"
                 android:textSize="16sp"/>
         </LinearLayout>
 
@@ -65,9 +66,11 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/txt_last_reading_shift"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Night/Closing"
+                android:text="N/A"
+
                 android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
