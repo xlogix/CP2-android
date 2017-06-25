@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId "xyz.fnplus.clientproject"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -63,7 +63,9 @@ dependencies {
     // DATABASE
     compile 'com.google.firebase:firebase-database:10.2.1'
     compile 'com.firebaseui:firebase-ui-database:1.2.0'
-    //SQUARE
+    // SECURITY
+
+    // SQUARE
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     testCompile 'junit:junit:4.12'

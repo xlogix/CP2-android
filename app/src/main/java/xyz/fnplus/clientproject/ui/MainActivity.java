@@ -83,15 +83,15 @@ public class MainActivity extends AppCompatActivity {
     TextInputLayout mTxtinputEmpCode;
     @BindView(R.id.txt_emp_name)
     EditText mTxtEmpName;
-    @BindView(R.id.txtinput_empname)
+    @BindView(R.id.txt_input_emp_name)
     TextInputLayout mTxtinputEmpname;
     @BindView(R.id.textView_day_Openreading)
     EditText mTextViewDayOpenreading;
-    @BindView(R.id.textInput_day_openreading)
+    @BindView(R.id.text_input_day_open_reading)
     TextInputLayout mTextInputDayOpenreading;
     @BindView(R.id.textView_day_Closereading)
     EditText mTextViewDayClosereading;
-    @BindView(R.id.textInput_day_Closereading)
+    @BindView(R.id.text_input_day_close_reading)
     TextInputLayout mTextInputDayClosereading;
     @BindView(R.id.edit_txt_remark)
     EditText mEditTxtRemark;

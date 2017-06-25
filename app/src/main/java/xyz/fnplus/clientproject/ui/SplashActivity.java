@@ -36,7 +36,7 @@ public class SplashActivity extends Activity {
              */
             public void run() {
                 Log.d(TAG, "Pass to main activity");
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
         }, SPLASH_TIME_OUT);

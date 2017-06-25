@@ -1,107 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:weightSum="2">
 
-    <android.support.v7.widget.CardView android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="4dp"
-                                        android:layout_weight="1"
-                                        app:cardCornerRadius="4dp"
-                                        app:contentPadding="6dp">
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="4dp"
+        app:contentPadding="6dp">
+
         <RadioGroup
             android:id="@+id/rg_mess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/txt_mess_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mess Size"
+                android:textSize="16sp" />
 
-                android:textSize="16sp"/>
             <RadioButton
                 android:id="@+id/rb_mess1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10*10"
-            />
+                android:text="10*10" />
 
             <RadioButton
                 android:id="@+id/rb_mess2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="11*11"
-            />
+                android:text="11*11" />
 
             <RadioButton
                 android:id="@+id/rb_mess3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12*12"/>
+                android:text="12*12" />
 
             <RadioButton
                 android:id="@+id/rb_mess4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Other"/>
+                android:text="Other" />
         </RadioGroup>
     </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_margin="4dp"
-                                        android:layout_weight="1"
-                                        app:cardCornerRadius="4dp"
-                                        app:contentPadding="6dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="4dp"
+        app:contentPadding="6dp">
 
         <RadioGroup
             android:id="@+id/rg_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/txt_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loom Status"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
             <RadioButton
                 android:id="@+id/rb_status1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Running"/>
+                android:text="Running" />
 
             <RadioButton
                 android:id="@+id/rb_status2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Drawing"
-            />
+                android:text="Drawing" />
 
             <RadioButton
                 android:id="@+id/rb_status3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading"/>
+                android:text="Loading" />
+
             <RadioButton
                 android:id="@+id/rb_status4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R&amp;M"/>
+                android:text="R&amp;M" />
 
             <RadioButton
                 android:id="@+id/rb_status5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Other"
-            />
+                android:text="Other" />
         </RadioGroup>
     </android.support.v7.widget.CardView>
 </LinearLayout>
