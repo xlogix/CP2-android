@@ -2,5 +2,5 @@
     <string name="app_name">Shift Manager</string>
     <string name="loading">Loading</string>
     <string name="company_promo">Made with &#10084; by Fnplus</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
 </resources>
