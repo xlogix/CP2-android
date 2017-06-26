@@ -25,9 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private ProgressDialog mProgressDialog;
-    private ScrollView mScrollView;
     private TextInputEditText mEditText;
-    private Button mButton;
     private String mSecret;
 
     @Override
@@ -39,9 +37,9 @@ public class LoginActivity extends AppCompatActivity {
         mSecret = "1234";
 
         // Declare layout
-        mScrollView = (ScrollView) findViewById(R.id.login_main_layout);
+        ScrollView mScrollView = (ScrollView) findViewById(R.id.login_main_layout);
+        Button mButton = (Button) findViewById(R.id.btn_unlock_submit);
         mEditText = (TextInputEditText) findViewById(R.id.edit_txt_unlock_code);
-        mButton = (Button) findViewById(R.id.btn_unlock_submit);
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
