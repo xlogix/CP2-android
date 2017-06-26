@@ -2,6 +2,7 @@ package xyz.fnplus.clientproject.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class FirebaseDataModel {
@@ -12,8 +13,7 @@ public class FirebaseDataModel {
     private String shift;
     private String messSize;
     private String status;
-    private String empCode;
-    private String empName;
+    private HashMap<String, String> emplist;
     private String dayOpenReading;
     private String dayEndReading;
     private String remark;
@@ -23,15 +23,15 @@ public class FirebaseDataModel {
     }
 
     public FirebaseDataModel(String loomNumber, String lastReading, String date, String shift, String messSize, String status,
-                             String empCode, String empName, String dayOpenReading, String dayEndReading, String remark, String quality) {
+                             HashMap<String, String> emplist, String dayOpenReading, String dayEndReading, String remark, String quality) {
         this.loomNumber = loomNumber;
         this.lastReading = lastReading;
         this.date = date;
         this.shift = shift;
         this.messSize = messSize;
         this.status = status;
-        this.empCode = empCode;
-        this.empName = empName;
+        this.emplist = emplist;
+
         this.dayOpenReading = dayOpenReading;
         this.dayEndReading = dayEndReading;
         this.remark = remark;
@@ -57,13 +57,7 @@ public class FirebaseDataModel {
         this.dayEndReading = dayEndReading;
     }
 
-    public String getEmpCode() {
-        return empCode;
-    }
 
-    public void setEmpCode(String empCode) {
-        this.empCode = empCode;
-    }
 
     public String getMessSize() {
         return messSize;
@@ -113,12 +107,12 @@ public class FirebaseDataModel {
         this.status = status;
     }
 
-    public String getEmpName() {
-        return empName;
+    public HashMap<String, String> getEmplist() {
+        return emplist;
     }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
+    public void setEmplist(HashMap<String, String> emplist) {
+        this.emplist = emplist;
     }
 
     public String getDayOpenReading() {

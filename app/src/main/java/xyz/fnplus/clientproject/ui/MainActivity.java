@@ -1,6 +1,7 @@
 package xyz.fnplus.clientproject.ui;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -14,10 +15,17 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,8 +38,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,14 +88,7 @@ public class MainActivity extends AppCompatActivity {
     RadioButton mRbStatus5;
     @BindView(R.id.rg_status)
     RadioGroup mRgStatus;
-    @BindView(R.id.txt_emp_code)
-    EditText mTxtEmpCode;
-    @BindView(R.id.txtinput_emp_code)
-    TextInputLayout mTxtinputEmpCode;
-    @BindView(R.id.txt_emp_name)
-    EditText mTxtEmpName;
-    @BindView(R.id.txt_input_emp_name)
-    TextInputLayout mTxtinputEmpname;
+
     @BindView(R.id.textView_day_Openreading)
     EditText mTextViewDayOpenreading;
     @BindView(R.id.text_input_day_open_reading)
@@ -117,8 +121,13 @@ public class MainActivity extends AppCompatActivity {
     TextView mTxtLastReadingDate;
     @BindView(R.id.txt_last_reading_shift)
     TextView mTxtLastReadingShift;
+    @BindView(R.id.btn_add_emp)
+    ImageButton mBtnAddEmp;
+    @BindView(R.id.list_view)
+    ListView mListView;
     private DatabaseReference mFirebaseDatabaseReference;
     private ProgressDialog mProgressDialog;
+    private HashMap<String, String> mEmployeeHashMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,9 +137,58 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mFormLayout.setVisibility(View.GONE);
+        mEmployeeHashMap = new HashMap<>();
 
         // Declare Firebase Database reference
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final String selectedItem = (String) mListView.getItemAtPosition(i);
+                final Dialog d = new Dialog(MainActivity.this);
+                d.setContentView(R.layout.card_view_emp_details_dialog);
+                d.setTitle("Enter Employee Details");
+                final EditText mTxtEmpCode = (EditText) d.findViewById(R.id.txt_emp_code);
+                mTxtEmpCode.setEnabled(false);
+                mTxtEmpCode.setText(selectedItem.substring(0, selectedItem.indexOf(" ")).substring(2));
+                final EditText mTxtEmpName = (EditText) d.findViewById(R.id.txt_emp_name);
+                mTxtEmpName.setText(mEmployeeHashMap.get(selectedItem.substring(0, selectedItem.indexOf(" "))));
+                Button mConfirm = (Button) d.findViewById(R.id.btn_dialog_confirm);
+
+                Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
+                mCancel.setText("Delete");
+                mCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mEmployeeHashMap.remove(selectedItem.substring(0, selectedItem.indexOf(" ")));
+                        updateListView();
+                        d.dismiss();
+                    }
+                });
+                d.show();
+                mConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        boolean validate = true;
+
+                        if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
+                            validate = false;
+                            mTxtEmpCode.setError("Enter Employee Name");
+                            Toast.makeText(MainActivity.this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
+                        }
+                        if (validate) {
+                            mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString());
+                            updateListView();
+                            d.dismiss();
+
+
+                        }
+                    }
+                });
+
+
+            }
+        });
 
     }
 
@@ -183,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
             RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
             RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
-            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), mTextViewDayOpenreading.getText().toString(), mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
+            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), mTextViewDayOpenreading.getText().toString(), mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
             // sending to Firebase
             mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);
             // UI
@@ -223,16 +281,12 @@ public class MainActivity extends AppCompatActivity {
             validate = false;
             Toast.makeText(this, "Select Mess Size or Status", Toast.LENGTH_SHORT).show();
         }
-        if (TextUtils.isEmpty(mTxtEmpCode.getText().toString())) {
+        if (mEmployeeHashMap.isEmpty()) {
             validate = false;
-            mTxtEmpCode.setError("Enter Employee Code");
-            Toast.makeText(this, "Enter Employee Code", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(this, "Add at least One employee", Toast.LENGTH_SHORT).show();
         }
-        if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
-            validate = false;
-            mTxtEmpCode.setError("Enter Employee Name");
-            Toast.makeText(this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
-        }
+
         if (TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
             validate = false;
             mTextViewDayOpenreading.setError("Enter Day Open Reading");
@@ -276,8 +330,8 @@ public class MainActivity extends AppCompatActivity {
         mTxtLastReadingDate.setText(model.getDate());
         mTxtLastReadingShift.setText(model.getShift());
         mShiftdate.setText(model.getDate());
-        mTxtEmpCode.setText(model.getEmpCode());
-        mTxtEmpName.setText(model.getEmpName());
+        mEmployeeHashMap.putAll(model.getEmplist());
+        updateListView();
         mTextViewDayClosereading.setText(model.getDayEndReading());
         mTextViewDayOpenreading.setText(model.getDayOpenReading());
         mEditTxtRemark.setText(model.getRemark());
@@ -330,8 +384,8 @@ public class MainActivity extends AppCompatActivity {
         mTxtLastReadingDate.setText("N/A");
         mTxtLastReadingShift.setText("N/A");
         mShiftdate.setText(null);
-        mTxtEmpCode.setText(null);
-        mTxtEmpName.setText(null);
+        mEmployeeHashMap.clear();
+        updateListView();
         mTextViewDayClosereading.setText(null);
         mTextViewDayOpenreading.setText(null);
         mEditTxtRemark.setText(null);
@@ -376,6 +430,85 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.btn_add_emp)
+    public void onAddEmployeeClicked() {
+        final Dialog d = new Dialog(this);
+        d.setContentView(R.layout.card_view_emp_details_dialog);
+        d.setTitle("Enter Employee Details");
+        final EditText mTxtEmpCode = (EditText) d.findViewById(R.id.txt_emp_code);
+        final EditText mTxtEmpName = (EditText) d.findViewById(R.id.txt_emp_name);
+        Button mConfirm = (Button) d.findViewById(R.id.btn_dialog_confirm);
+        Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                d.dismiss();
+            }
+        });
+        d.show();
+        mConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean validate = true;
+                if (TextUtils.isEmpty(mTxtEmpCode.getText().toString())) {
+                    validate = false;
+                    mTxtEmpCode.setError("Enter Employee Code");
+                    Toast.makeText(MainActivity.this, "Enter Employee Code", Toast.LENGTH_SHORT).show();
+                }
+                if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
+                    validate = false;
+                    mTxtEmpCode.setError("Enter Employee Name");
+                    Toast.makeText(MainActivity.this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
+                }
+                if (validate) {
+                    if (!mEmployeeHashMap.containsKey(mTxtEmpCode.getText().toString())) {
+                        mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString());
+                        updateListView();
+                        d.dismiss();
+                    } else
+                        Toast.makeText(MainActivity.this, "Employee Code Already Exists", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+    }
+
+    private void updateListView() {
+
+        ArrayList<String> items = new ArrayList<>();
+        if (mEmployeeHashMap.isEmpty()) {
+            items.add("No Data To Display");
+        } else {
+            for (Map.Entry<String, String> e : mEmployeeHashMap.entrySet())
+                items.add(String.format("%-10s %30s", e.getKey(), e.getValue()));
+        }
+        ArrayAdapter<String> itemsAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+
+        mListView.setAdapter(itemsAdapter);
+        setListViewHeightBasedOnChildren();
+    }
+
+    private void setListViewHeightBasedOnChildren() {
+        ListAdapter listAdapter = mListView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, mListView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = mListView.getLayoutParams();
+        params.height = totalHeight + (mListView.getDividerHeight() * (listAdapter.getCount() - 1));
+        mListView.setLayoutParams(params);
     }
 }
 

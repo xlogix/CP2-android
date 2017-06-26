@@ -82,7 +82,7 @@
 
             <include
                 android:id="@+id/card_view_emp_details"
-                layout="@layout/card_view_emp_details" />
+                layout="@layout/card_view_emp_details_listview"/>
 
             <include
                 android:id="@layout/card_view_readings"
