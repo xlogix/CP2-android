@@ -136,10 +136,18 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_loom_submit)
     public void onMBtnLoomSubmitClicked(final View view) {
+        // show changes in UI
+        showProgressDialog();
+        // Logic
         if (TextUtils.isEmpty(mEditTxtLoom.getText().toString())) {
             mEditTxtLoom.setError("Enter Loom No");
+            // UI
+            hideProgressDialog();
             Toast.makeText(this, "Enter Loom No", Toast.LENGTH_SHORT).show();
         } else {
+            // UI
+            hideProgressDialog();
+            // Logic
             mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -168,14 +176,24 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_details_submit)
     public void onMBtnDetailsSubmitClicked(View v) {
+        // show changes in UI
+        showProgressDialog();
+        // Logic
         if (validateDetails()) {
             RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
             RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
             FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), mTextViewDayOpenreading.getText().toString(), mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
+            // sending to Firebase
             mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);
-            Snackbar.make(v, "Loom Updated", Snackbar.LENGTH_LONG).show();
+            // UI
+            hideProgressDialog();
+            Snackbar.make(v, "Data sent! Loom Updated", Snackbar.LENGTH_LONG).show();
             mFormLayout.setVisibility(View.GONE);
+        } else {
+            // UI
+            hideProgressDialog();
+            Toast.makeText(this, "Something went wrong. Try Again.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -205,15 +223,25 @@ public class MainActivity extends AppCompatActivity {
             validate = false;
             Toast.makeText(this, "Select Mess Size or Status", Toast.LENGTH_SHORT).show();
         }
-        if (TextUtils.isEmpty(mTxtEmpCode.getText().toString()) || TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
+        if (TextUtils.isEmpty(mTxtEmpCode.getText().toString())) {
             validate = false;
-            mTxtEmpCode.setError("Enter Employee Name/Code");
-            Toast.makeText(this, "Enter Employee Name/Code", Toast.LENGTH_SHORT).show();
+            mTxtEmpCode.setError("Enter Employee Code");
+            Toast.makeText(this, "Enter Employee Code", Toast.LENGTH_SHORT).show();
         }
-        if (TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString()) || TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
+        if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
             validate = false;
-            mTextViewDayOpenreading.setError("Enter Day Close/Open Reading");
-            Toast.makeText(this, "Enter Day Close/Open Reading", Toast.LENGTH_SHORT).show();
+            mTxtEmpCode.setError("Enter Employee Name");
+            Toast.makeText(this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
+            validate = false;
+            mTextViewDayOpenreading.setError("Enter Day Open Reading");
+            Toast.makeText(this, "Enter Day Open Reading", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
+            validate = false;
+            mTextViewDayClosereading.setError("Enter Day Close Reading");
+            Toast.makeText(this, "Enter Day Close Reading", Toast.LENGTH_SHORT).show();
         }
         if (TextUtils.isEmpty(mEditTxtRemark.getText().toString())) {
             validate = false;
