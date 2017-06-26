@@ -1,0 +1,14 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/gradient_login"
+        android:duration="2500" />
+    <item
+        android:drawable="@drawable/gradient_login_2"
+        android:duration="2500" />
+    <item
+        android:drawable="@drawable/gradient_login_3"
+        android:duration="2500" />
+    <item
+        android:drawable="@drawable/gradient_login_4"
+        android:duration="2500" />
+</animation-list>

@@ -1,6 +1,7 @@
 package xyz.fnplus.clientproject.ui;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -103,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
     CollapsingToolbarLayout mToolbarLayout;
     @BindView(R.id.app_bar)
     AppBarLayout mAppBar;
-    @BindView(R.id.fab)
-    FloatingActionButton mFab;
     @BindView(R.id.shiftdate)
     EditText mShiftdate;
     @BindView(R.id.rb_day)
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.txt_last_reading_shift)
     TextView mTxtLastReadingShift;
     private DatabaseReference mFirebaseDatabaseReference;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,45 +130,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mFormLayout.setVisibility(View.GONE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Sending data to the server", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        // Declare Firebase Database reference
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
-        String refPath = getIntent().getStringExtra("refPath");
-
-
-    }
-
-    private void updateDataOnServer() {
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.btn_loom_submit)
@@ -182,17 +146,16 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     FirebaseDataModel dm = dataSnapshot.getValue(FirebaseDataModel.class);
                     if (dm == null) {
-                        clearDatainView();
+                        clearDataInView();
                         mFormLayout.setVisibility(View.VISIBLE);
-                        Snackbar.make(view, "No Loom Found,Fill The Details For that Loom", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "No Loom Found, fill the details for that Loom", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
-                        clearDatainView();
+                        clearDataInView();
                         Snackbar.make(view, "Last Record Of the Loom Fetched!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         mFormLayout.setVisibility(View.VISIBLE);
                         setDataToView(dm);
-
                     }
                 }
 
@@ -202,17 +165,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 
     @OnClick(R.id.btn_details_submit)
     public void onMBtnDetailsSubmitClicked(View v) {
         if (validateDetails()) {
             RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
-            RadioButton messsize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
+            RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
-            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), mTextViewDayOpenreading.getText().toString(), mShiftdate.getText().toString(), shift.getText().toString(), messsize.getText().toString(), status.getText().toString(), mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
+            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), mTextViewDayOpenreading.getText().toString(), mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
             mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);
             Snackbar.make(v, "Loom Updated", Snackbar.LENGTH_LONG).show();
             mFormLayout.setVisibility(View.GONE);
@@ -260,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
             mEditTxtRemark.setError("Enter Remark");
             Toast.makeText(this, "Enter Remark", Toast.LENGTH_SHORT).show();
         }
-
-
         return validate;
 
     }
@@ -339,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void clearDatainView() {
+    void clearDataInView() {
         mDbLastReading.setText("N/A");
         mTxtLastReadingDate.setText("N/A");
         mTxtLastReadingShift.setText("N/A");
@@ -353,6 +312,42 @@ public class MainActivity extends AppCompatActivity {
         mRgStatus.clearCheck();
         mRgMess.clearCheck();
         mRgShiftDetails.clearCheck();
+    }
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        // noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

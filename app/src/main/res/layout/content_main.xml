@@ -9,54 +9,10 @@
     tools:context="xyz.fnplus.clientproject.ui.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:theme="@style/EditTextTheme">
-
-        <EditText
-            android:id="@+id/edit_txt_loom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Enter Loom Number"
-            android:inputType="number"
-            android:textColor="@color/white"
-            tools:layout_editor_absoluteX="16dp" />
-    </android.support.design.widget.TextInputLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp">
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_loom_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/border_button_background"
-            android:text="Submit"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
     <LinearLayout
-        android:id="@+id/form_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <include
-            android:id="@+id/card_view_last_reading_details"
-            layout="@layout/card_view_last_reading_details" />
-
-        <include
-            android:id="@layout/card_view_shift_details"
-            layout="@layout/card_view_shift_details" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -64,45 +20,91 @@
             android:focusable="true"
             android:theme="@style/EditTextTheme">
 
-            <AutoCompleteTextView
-                android:id="@+id/textView"
+            <EditText
+                android:id="@+id/edit_txt_loom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:hint="Quality Name/ Code : "
-                android:textColor="@android:color/white"
-                android:textSize="24sp" />
+                android:hint="Enter Loom Number"
+                android:inputType="number"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="16dp" />
         </android.support.design.widget.TextInputLayout>
 
-        <include
-            android:id="@+id/card_view_mess_size"
-            layout="@layout/card_view_mess_size" />
-
-        <include
-            android:id="@+id/card_view_emp_details"
-            layout="@layout/card_view_emp_details" />
-
-        <include
-            android:id="@layout/card_view_readings"
-            layout="@layout/card_view_readings" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_loom_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:background="@drawable/border_button_background"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btn_details_submit"
+        <LinearLayout
+            android:id="@+id/form_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/card_view_last_reading_details"
+                layout="@layout/card_view_last_reading_details" />
+
+            <include
+                android:id="@layout/card_view_shift_details"
+                layout="@layout/card_view_shift_details" />
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/border_button_background"
-                android:text="Save Changes"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+                android:focusable="true"
+                android:theme="@style/EditTextTheme">
+
+                <AutoCompleteTextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:hint="Quality Name/Code : "
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <include
+                android:id="@+id/card_view_mess_size"
+                layout="@layout/card_view_mess_size" />
+
+            <include
+                android:id="@+id/card_view_emp_details"
+                layout="@layout/card_view_emp_details" />
+
+            <include
+                android:id="@layout/card_view_readings"
+                layout="@layout/card_view_readings" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_details_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/border_button_background"
+                    android:text="Save Changes"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

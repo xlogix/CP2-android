@@ -1,18 +1,19 @@
 package xyz.fnplus.clientproject.ui;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import xyz.fnplus.clientproject.R;
 
@@ -24,13 +25,58 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private ProgressDialog mProgressDialog;
+    private ScrollView mScrollView;
+    private TextInputEditText mEditText;
+    private Button mButton;
+    private String mSecret;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+        setContentView(R.layout.activity_login);
 
+        // Setting the secret
+        mSecret = "1234";
+
+        // Declare layout
+        mScrollView = (ScrollView) findViewById(R.id.login_main_layout);
+        mEditText = (TextInputEditText) findViewById(R.id.edit_txt_unlock_code);
+        mButton = (Button) findViewById(R.id.btn_unlock_submit);
+
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // show changes in the UI
+                showProgressDialog();
+                if (mEditText.getText().toString().equals(mSecret)) {
+                    getSharedPreferences("userData", MODE_PRIVATE).edit().putBoolean("secret_code_entered", true).apply();
+                    // Show changes in the UI
+                    hideProgressDialog();
+                    // Main Intent
+                    Intent intentLoginMain = new Intent(LoginActivity.this, MainActivity.class);
+                    intentLoginMain.setAction(Intent.ACTION_MAIN);
+                    intentLoginMain.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
+                            | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    // show else statement
+                    mEditText.setError("Invalid Secret Code");
+                    // Set in shared preferences
+                    getSharedPreferences("userData", MODE_PRIVATE).edit().putBoolean("secret_code_entered", false).apply();
+                    // show changes in the UI
+                    hideProgressDialog();
+                }
+            }
+        });
+
+        // Setup animation
+        AnimationDrawable animationDrawable = (AnimationDrawable) mScrollView.getBackground();
+        animationDrawable.setEnterFadeDuration(2500);
+        animationDrawable.setExitFadeDuration(2500);
+        animationDrawable.start();
+
+    }
 
     @Override
     protected void onResume() {
@@ -38,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         if (isDeviceOnline()) {
             Log.i(TAG, "Device is online!");
         } else {
-            Snackbar.make(, "Device Offline. Functionality may be limited", Snackbar.LENGTH_SHORT).show();
+            Toast.makeText(this, "Device is offline. Functionality may be limited", Toast.LENGTH_SHORT).show();
         }
     }
 

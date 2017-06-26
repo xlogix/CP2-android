@@ -56,7 +56,8 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="Login Here"
-            android:permission="xyz.fnplus.clientproject.SECURE" />
+            android:permission="xyz.fnplus.clientproject.SECURE"
+            android:theme="@style/AppTheme.NoActionBarTransparent" />
 
         <activity
             android:name=".ui.MainActivity"
