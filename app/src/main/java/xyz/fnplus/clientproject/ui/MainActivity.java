@@ -138,6 +138,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mFormLayout.setVisibility(View.GONE);
         mEmployeeHashMap = new HashMap<>();
+        Calendar newCalendar = Calendar.getInstance();
+        newCalendar.add(Calendar.DATE, 1);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
+        mShiftdate.setText(sdf.format(newCalendar.getTime()));
 
         // Declare Firebase Database reference
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -213,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                     if (dm == null) {
                         clearDataInView();
                         mFormLayout.setVisibility(View.VISIBLE);
+                        setShiftFromCurrentTime();
                         Snackbar.make(view, "No Loom Found, fill the details for that Loom", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
@@ -241,7 +246,20 @@ public class MainActivity extends AppCompatActivity {
             RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
             RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
-            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), mTextViewDayOpenreading.getText().toString(), mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
+            String LastReading = "";
+            if (!TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
+                LastReading = mTextViewDayClosereading.getText().toString();
+                mTextViewDayClosereading.setText(null);
+                mTextViewDayOpenreading.setText(null);
+                Snackbar.make(v, "Loom Readings Reset for the Next Day", Snackbar.LENGTH_LONG).show();
+
+            } else if (!TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
+                LastReading = mTextViewDayOpenreading.getText().toString();
+                Snackbar.make(v, "Loom Is Now Active", Snackbar.LENGTH_LONG).show();
+
+            } else LastReading = null;
+
+            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), LastReading, mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
             // sending to Firebase
             mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);
             // UI
@@ -272,11 +290,7 @@ public class MainActivity extends AppCompatActivity {
             validate = false;
             Toast.makeText(this, "Select Mess Size or Status", Toast.LENGTH_SHORT).show();
         }
-        if (TextUtils.isEmpty(mTextView.getText().toString())) {
-            validate = false;
-            mTextView.setError("Enter Quality Name/Code");
-            Toast.makeText(this, "Enter Quality Name/Code", Toast.LENGTH_SHORT).show();
-        }
+
         if (mRgMess.getCheckedRadioButtonId() == -1 || mRgStatus.getCheckedRadioButtonId() == -1) {
             validate = false;
             Toast.makeText(this, "Select Mess Size or Status", Toast.LENGTH_SHORT).show();
@@ -286,7 +300,12 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Add at least One employee", Toast.LENGTH_SHORT).show();
         }
-
+    /*  OPTIONAL FIELDS
+      if (TextUtils.isEmpty(mTextView.getText().toString())) {
+            validate = false;
+            mTextView.setError("Enter Quality Name/Code");
+            Toast.makeText(this, "Enter Quality Name/Code", Toast.LENGTH_SHORT).show();
+        }
         if (TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
             validate = false;
             mTextViewDayOpenreading.setError("Enter Day Open Reading");
@@ -297,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
             mTextViewDayClosereading.setError("Enter Day Close Reading");
             Toast.makeText(this, "Enter Day Close Reading", Toast.LENGTH_SHORT).show();
         }
+        */
         if (TextUtils.isEmpty(mEditTxtRemark.getText().toString())) {
             validate = false;
             mEditTxtRemark.setError("Enter Remark");
@@ -326,7 +346,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void setDataToView(FirebaseDataModel model) {
-        mDbLastReading.setText(model.getLastReading());
+
+        if (model.getLastReading() == null)
+            mDbLastReading.setText("N/A");
+        else
+            mDbLastReading.setText(model.getLastReading());
         mTxtLastReadingDate.setText(model.getDate());
         mTxtLastReadingShift.setText(model.getShift());
         mShiftdate.setText(model.getDate());
@@ -345,6 +369,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
         }
+        setShiftFromCurrentTime();
+
         switch (model.getMessSize()) {
             case "10*10":
                 mRbMess1.setChecked(true);
@@ -376,6 +402,7 @@ public class MainActivity extends AppCompatActivity {
                 mRbStatus5.setChecked(true);
                 break;
         }
+
 
     }
 
@@ -509,6 +536,22 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup.LayoutParams params = mListView.getLayoutParams();
         params.height = totalHeight + (mListView.getDividerHeight() * (listAdapter.getCount() - 1));
         mListView.setLayoutParams(params);
+    }
+
+    private void setShiftFromCurrentTime() {
+        Calendar cal = Calendar.getInstance();
+        int hours = cal.get(Calendar.HOUR_OF_DAY);
+
+        if (hours >= 6 || hours <= 16) {
+
+            Toast.makeText(this, "Setting Shift To Day", Toast.LENGTH_SHORT).show();
+            mRbDay.setChecked(true);
+        } else if (hours >= 17 || hours <= 5) {
+
+            Toast.makeText(this, "Setting Shift To Night", Toast.LENGTH_SHORT).show();
+            mRbNight.setChecked(true);
+        }
+
     }
 }
 
