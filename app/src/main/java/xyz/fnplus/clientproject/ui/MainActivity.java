@@ -138,10 +138,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mFormLayout.setVisibility(View.GONE);
         mEmployeeHashMap = new HashMap<>();
-        Calendar newCalendar = Calendar.getInstance();
-        newCalendar.add(Calendar.DATE, 1);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
-        mShiftdate.setText(sdf.format(newCalendar.getTime()));
 
         // Declare Firebase Database reference
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -216,12 +212,22 @@ public class MainActivity extends AppCompatActivity {
                     FirebaseDataModel dm = dataSnapshot.getValue(FirebaseDataModel.class);
                     if (dm == null) {
                         clearDataInView();
+                        Calendar newCalendar = Calendar.getInstance();
+                        newCalendar.add(Calendar.DATE, 1);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
+                        mShiftdate.setText(sdf.format(newCalendar.getTime()));
+
                         mFormLayout.setVisibility(View.VISIBLE);
                         setShiftFromCurrentTime();
                         Snackbar.make(view, "No Loom Found, fill the details for that Loom", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
                         clearDataInView();
+                        Calendar newCalendar = Calendar.getInstance();
+                        newCalendar.add(Calendar.DATE, 1);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
+                        mShiftdate.setText(sdf.format(newCalendar.getTime()));
+
                         Snackbar.make(view, "Last Record Of the Loom Fetched!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         mFormLayout.setVisibility(View.VISIBLE);
