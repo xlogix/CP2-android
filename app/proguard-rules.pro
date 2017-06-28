@@ -35,6 +35,10 @@
 
 -keep interface android.support.v7.** { *; }
 
+-keepclassmembers class xyz.fnplus.clientproject.models.** {
+    *;
+}
+
 # Remove unwanted logging for increased security
 -assumenosideeffects class android.util.Log {
      public static boolean isLoggable(java.lang.String, int);
