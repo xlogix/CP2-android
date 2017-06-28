@@ -13,10 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,6 +55,7 @@ import xyz.fnplus.clientproject.R;
 import xyz.fnplus.clientproject.models.FirebaseDataModel;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.edit_txt_loom)
     EditText mEditTxtLoom;
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 final String selectedItem = (String) mListView.getItemAtPosition(i);
                 final Dialog d = new Dialog(MainActivity.this);
                 d.setContentView(R.layout.card_view_emp_details_dialog);
-                d.setTitle("Enter Employee Details");
+                d.setTitle("Enter employee details");
                 final EditText mTxtEmpCode = (EditText) d.findViewById(R.id.txt_emp_code);
                 mTxtEmpCode.setEnabled(false);
                 mTxtEmpCode.setText(selectedItem.substring(0, selectedItem.indexOf(" ")).substring(2));
@@ -177,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
 
                         if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
                             validate = false;
-                            mTxtEmpCode.setError("Enter Employee Name");
-                            Toast.makeText(MainActivity.this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
+                            mTxtEmpCode.setError("Enter employee name");
+                            Toast.makeText(MainActivity.this, "Enter employee name", Toast.LENGTH_SHORT).show();
                         }
                         if (validate) {
                             mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString());
@@ -195,6 +198,12 @@ public class MainActivity extends AppCompatActivity {
     public void onMBtnLoomSubmitClicked(final View view) {
         // show changes in UI
         showProgressDialog();
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            Log.d(TAG, "Unable to hide the soft keyboard");
+        }
         // Logic
         if (TextUtils.isEmpty(mEditTxtLoom.getText().toString())) {
             mEditTxtLoom.setError("Enter Loom No");
@@ -210,26 +219,29 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     FirebaseDataModel dm = dataSnapshot.getValue(FirebaseDataModel.class);
                     if (dm == null) {
+                        // Clear previous data
                         clearDataInView();
+
                         Calendar newCalendar = Calendar.getInstance();
-                        newCalendar.add(Calendar.DATE, 1);
+                        // Get current date
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
                         mShiftdate.setText(sdf.format(newCalendar.getTime()));
-
+                        // Form
                         mFormLayout.setVisibility(View.VISIBLE);
                         setShiftFromCurrentTime();
-                        Snackbar.make(view, "No Loom Found, fill the details for that Loom", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "No Loom found. Fill the details for that Loom", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
+                        // Clear previous data
                         clearDataInView();
                         Calendar newCalendar = Calendar.getInstance();
-                        newCalendar.add(Calendar.DATE, 1);
+                        // Get current date
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
                         mShiftdate.setText(sdf.format(newCalendar.getTime()));
-
-                        Snackbar.make(view, "Last Record Of the Loom Fetched!", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                        // Form
                         mFormLayout.setVisibility(View.VISIBLE);
+                        Snackbar.make(view, "Last record of the Loom fetched!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                         setDataToView(dm);
                     }
                 }
@@ -258,11 +270,11 @@ public class MainActivity extends AppCompatActivity {
                 LastReading = mTextViewDayClosereading.getText().toString();
                 mTextViewDayClosereading.setText(null);
                 mTextViewDayOpenreading.setText(null);
-                Snackbar.make(v, "Loom Readings Reset for the Next Day", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(v, "Loom readings reset", Snackbar.LENGTH_LONG).show();
 
             } else if (!TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
                 LastReading = mTextViewDayOpenreading.getText().toString();
-                Snackbar.make(v, "Loom Is Now Active", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(v, "Loom is now active", Snackbar.LENGTH_LONG).show();
 
             } else LastReading = null;
 
@@ -295,22 +307,16 @@ public class MainActivity extends AppCompatActivity {
         }
         if (mRgShiftDetails.getCheckedRadioButtonId() == -1) {
             validate = false;
-            Toast.makeText(this, "Select Mess Size or Status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select Mess Size", Toast.LENGTH_SHORT).show();
         }
-
-        if (mRgMess.getCheckedRadioButtonId() == -1 || mRgStatus.getCheckedRadioButtonId() == -1) {
+        if (mRgStatus.getCheckedRadioButtonId() == -1) {
             validate = false;
-            Toast.makeText(this, "Select Mess Size or Status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select Mess Status", Toast.LENGTH_SHORT).show();
         }
         if (mEmployeeHashMap.isEmpty()) {
             validate = false;
 
             Toast.makeText(this, "Add at least One employee", Toast.LENGTH_SHORT).show();
-        }
-        if (TextUtils.isEmpty(mEditTxtRemark.getText().toString())) {
-            validate = false;
-            mEditTxtRemark.setError("Enter Remark");
-            Toast.makeText(this, "Enter Remark", Toast.LENGTH_SHORT).show();
         }
         return validate;
 
@@ -377,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
                 mRbMess4.setChecked(true);
                 break;
         }
+
         switch (model.getStatus()) {
             case "Running":
                 mRbStatus1.setChecked(true);
