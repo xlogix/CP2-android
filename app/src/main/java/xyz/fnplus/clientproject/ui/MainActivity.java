@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
@@ -94,16 +93,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.rg_status)
     RadioGroup mRgStatus;
 
-    @BindView(R.id.textView_day_Openreading)
-    EditText mTextViewDayOpenreading;
-    @BindView(R.id.text_input_day_open_reading)
-    TextInputLayout mTextInputDayOpenreading;
-    @BindView(R.id.textView_day_Closereading)
-    EditText mTextViewDayClosereading;
-    @BindView(R.id.text_input_day_close_reading)
-    TextInputLayout mTextInputDayClosereading;
-    @BindView(R.id.edit_txt_remark)
-    EditText mEditTxtRemark;
+
     @BindView(R.id.btn_details_submit)
     AppCompatButton mBtnDetailsSubmit;
     @BindView(R.id.toolbar)
@@ -130,9 +120,12 @@ public class MainActivity extends AppCompatActivity {
     ImageButton mBtnAddEmp;
     @BindView(R.id.list_view)
     ListView mListView;
+    @BindView(R.id.btn_details_reset)
+    AppCompatButton mBtnDetailsReset;
+    private String LastReading;
     private DatabaseReference mFirebaseDatabaseReference;
     private ProgressDialog mProgressDialog;
-    private HashMap<String, String> mEmployeeHashMap;
+    private HashMap<String, FirebaseDataModel.EmpRecord> mEmployeeHashMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +149,26 @@ public class MainActivity extends AppCompatActivity {
                 d.setContentView(R.layout.card_view_emp_details_dialog);
                 d.setTitle("Enter employee details");
                 final EditText mTxtEmpCode = (EditText) d.findViewById(R.id.txt_emp_code);
-                mTxtEmpCode.setEnabled(false);
-                mTxtEmpCode.setText(selectedItem.substring(0, selectedItem.indexOf(" ")).substring(2));
                 final EditText mTxtEmpName = (EditText) d.findViewById(R.id.txt_emp_name);
-                mTxtEmpName.setText(mEmployeeHashMap.get(selectedItem.substring(0, selectedItem.indexOf(" "))));
+
                 Button mConfirm = (Button) d.findViewById(R.id.btn_dialog_confirm);
+                final EditText mTextViewDayOpenreading = (EditText) d.findViewById(R.id.textView_day_Openreading);
+                final EditText mTextViewDayClosereading = (EditText) d.findViewById(R.id.textView_day_Closereading);
+                final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
+
+                if (!selectedItem.equals("No Data To Display- ")) {
+                    FirebaseDataModel.EmpRecord record = mEmployeeHashMap.get(selectedItem.substring(0, selectedItem.indexOf(" ")));
+                    mTxtEmpCode.setText(selectedItem.substring(0, selectedItem.indexOf(" ")).substring(2));
+                    mEditTxtRemark.setText(record.getRemarks());
+                    mTxtEmpName.setText(record.getEmpName());
+                    mTxtEmpCode.setEnabled(false);
+                    mTextViewDayClosereading.setText(record.getCloseReading());
+                    mTextViewDayOpenreading.setText(record.getOpenReading());
+
+                }
+
+
+
 
                 Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
                 mCancel.setText("Delete");
@@ -180,11 +188,14 @@ public class MainActivity extends AppCompatActivity {
 
                         if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
                             validate = false;
+
                             mTxtEmpCode.setError("Enter employee name");
                             Toast.makeText(MainActivity.this, "Enter employee name", Toast.LENGTH_SHORT).show();
                         }
                         if (validate) {
-                            mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString());
+                            FirebaseDataModel.EmpRecord record = new FirebaseDataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString());
+                            mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), record);
+                            setLastReading(mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString());
                             updateListView();
                             d.dismiss();
                         }
@@ -228,12 +239,14 @@ public class MainActivity extends AppCompatActivity {
                         mShiftdate.setText(sdf.format(newCalendar.getTime()));
                         // Form
                         mFormLayout.setVisibility(View.VISIBLE);
+                        mBtnDetailsReset.setEnabled(false);
                         setShiftFromCurrentTime();
                         Snackbar.make(view, "No Loom found. Fill the details for that Loom", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     } else {
                         // Clear previous data
                         clearDataInView();
+
                         Calendar newCalendar = Calendar.getInstance();
                         // Get current date
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.UK);
@@ -243,6 +256,8 @@ public class MainActivity extends AppCompatActivity {
                         Snackbar.make(view, "Last record of the Loom fetched!", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         setDataToView(dm);
+
+                        mBtnDetailsReset.setEnabled(true);
                     }
                 }
 
@@ -264,21 +279,9 @@ public class MainActivity extends AppCompatActivity {
             RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
             RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
-            String LastReading = "";
 
-            if (!TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
-                LastReading = mTextViewDayClosereading.getText().toString();
-                mTextViewDayClosereading.setText(null);
-                mTextViewDayOpenreading.setText(null);
-                Snackbar.make(v, "Loom readings reset", Snackbar.LENGTH_LONG).show();
 
-            } else if (!TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
-                LastReading = mTextViewDayOpenreading.getText().toString();
-                Snackbar.make(v, "Loom is now active", Snackbar.LENGTH_LONG).show();
-
-            } else LastReading = null;
-
-            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), LastReading, mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString(), mTextView.getText().toString());
+            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), LastReading, mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextView.getText().toString());
             // sending to Firebase
             mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);
             // UI
@@ -347,15 +350,15 @@ public class MainActivity extends AppCompatActivity {
             mDbLastReading.setText("N/A");
         else
             mDbLastReading.setText(model.getLastReading());
+        LastReading = model.getLastReading();
 
         mTxtLastReadingDate.setText(model.getDate());
         mTxtLastReadingShift.setText(model.getShift());
         mShiftdate.setText(model.getDate());
+        if (model.getEmplist() != null && !model.getEmplist().isEmpty())
         mEmployeeHashMap.putAll(model.getEmplist());
         updateListView();
-        mTextViewDayClosereading.setText(model.getDayEndReading());
-        mTextViewDayOpenreading.setText(model.getDayOpenReading());
-        mEditTxtRemark.setText(model.getRemark());
+
         mTextView.setText(model.getQuality());
         switch (model.getShift()) {
             case "Day":
@@ -405,15 +408,13 @@ public class MainActivity extends AppCompatActivity {
 
     void clearDataInView() {
         // Update UI
+        LastReading = "";
         mDbLastReading.setText("N/A");
         mTxtLastReadingDate.setText("N/A");
         mTxtLastReadingShift.setText("N/A");
         mShiftdate.setText(null);
         mEmployeeHashMap.clear();
         updateListView();
-        mTextViewDayClosereading.setText(null);
-        mTextViewDayOpenreading.setText(null);
-        mEditTxtRemark.setText(null);
         mTextView.setText(null);
         mRgStatus.clearCheck();
         mRgMess.clearCheck();
@@ -430,6 +431,10 @@ public class MainActivity extends AppCompatActivity {
         final EditText mTxtEmpName = (EditText) d.findViewById(R.id.txt_emp_name);
         Button mConfirm = (Button) d.findViewById(R.id.btn_dialog_confirm);
         Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
+        final EditText mTextViewDayOpenreading = (EditText) d.findViewById(R.id.textView_day_Openreading);
+        final EditText mTextViewDayClosereading = (EditText) d.findViewById(R.id.textView_day_Closereading);
+        final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
+
         // On Click
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -452,9 +457,12 @@ public class MainActivity extends AppCompatActivity {
                     mTxtEmpCode.setError("Enter Employee Name");
                     Toast.makeText(MainActivity.this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
                 }
+
                 if (validate) {
-                    if (!mEmployeeHashMap.containsKey(mTxtEmpCode.getText().toString())) {
-                        mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString());
+                    if (!mEmployeeHashMap.containsKey("ID" + mTxtEmpCode.getText().toString())) {
+                        FirebaseDataModel.EmpRecord record = new FirebaseDataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString());
+                        mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), record);
+                        setLastReading(mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString());
                         updateListView();
                         d.dismiss();
                     } else
@@ -467,17 +475,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateListView() {
 
-        ArrayList<String> items = new ArrayList<>();
+        final ArrayList<String> items = new ArrayList<>();
         if (mEmployeeHashMap.isEmpty()) {
-            items.add("No Data To Display");
+            items.add("No Data To Display- ");
         } else {
-            for (Map.Entry<String, String> e : mEmployeeHashMap.entrySet())
-                items.add(String.format("%-10s %30s", e.getKey(), e.getValue()));
+            for (Map.Entry<String, FirebaseDataModel.EmpRecord> e : mEmployeeHashMap.entrySet())
+                items.add(e.getValue().toString());
         }
-        ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, items) {
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
-        mListView.setAdapter(itemsAdapter);
+                String[] lines = items.get(position).split("-");
+                Log.e(TAG, "getView: " + lines[0] + items.get(position));
+                text1.setText(lines[0]);
+                text2.setText(lines[1]);
+                return view;
+            }
+        };
+        mListView.setAdapter(adapter);
         setListViewHeightBasedOnChildren();
     }
 
@@ -557,6 +575,31 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setLastReading(String open, String close) {
+
+        if (!TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
+            LastReading = close;
+        else if (!TextUtils.isEmpty(open) && TextUtils.isEmpty(close))
+            LastReading = open;
+        else if (TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
+            LastReading = close;
+        else LastReading = "";
+
+    }
+
+    @OnClick(R.id.btn_details_reset)
+    public void onResetClicked(View v) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy", Locale.UK);
+        mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).child("previousReadings").child(sdf.format(calendar.getTime())).setValue(mEmployeeHashMap);
+        mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).child("emplist").setValue(null);
+        clearDataInView();
+        mFormLayout.setVisibility(View.GONE);
+        Snackbar.make(v, "Loom Data Reset Successfully!", Snackbar.LENGTH_LONG).show();
+
+
     }
 }
 

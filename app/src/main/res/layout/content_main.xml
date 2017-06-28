@@ -86,21 +86,32 @@
                 android:id="@+id/card_view_emp_details"
                 layout="@layout/card_view_emp_details_listview" />
 
-            <include
-                android:id="@layout/card_view_emp_readings"
-                layout="@layout/card_view_emp_readings" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="48dp"
                 android:layout_marginTop="16dp">
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_details_reset"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/border_button_background"
+                    android:text="Reset"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btn_details_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_details_reset"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/border_button_background"
                     android:text="Save Changes"
                     android:textColor="@android:color/white"

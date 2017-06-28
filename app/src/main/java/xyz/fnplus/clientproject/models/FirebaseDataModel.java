@@ -13,17 +13,15 @@ public class FirebaseDataModel {
     private String shift;
     private String messSize;
     private String status;
-    private HashMap<String, String> emplist;
-    private String dayOpenReading;
-    private String dayEndReading;
-    private String remark;
+    private HashMap<String, EmpRecord> emplist;
+
     private long time;
 
     public FirebaseDataModel() {
     }
 
     public FirebaseDataModel(String loomNumber, String lastReading, String date, String shift, String messSize, String status,
-                             HashMap<String, String> emplist, String dayOpenReading, String dayEndReading, String remark, String quality) {
+                             HashMap<String, EmpRecord> emplist, String quality) {
         this.loomNumber = loomNumber;
         this.lastReading = lastReading;
         this.date = date;
@@ -32,9 +30,7 @@ public class FirebaseDataModel {
         this.status = status;
         this.emplist = emplist;
 
-        this.dayOpenReading = dayOpenReading;
-        this.dayEndReading = dayEndReading;
-        this.remark = remark;
+
         this.quality = quality;
 
         // Initialize to current time
@@ -48,15 +44,6 @@ public class FirebaseDataModel {
     public void setDate(String date) {
         this.date = date;
     }
-
-    public String getDayEndReading() {
-        return dayEndReading;
-    }
-
-    public void setDayEndReading(String dayEndReading) {
-        this.dayEndReading = dayEndReading;
-    }
-
 
 
     public String getMessSize() {
@@ -107,29 +94,14 @@ public class FirebaseDataModel {
         this.status = status;
     }
 
-    public HashMap<String, String> getEmplist() {
+    public HashMap<String, EmpRecord> getEmplist() {
         return emplist;
     }
 
-    public void setEmplist(HashMap<String, String> emplist) {
+    public void setEmplist(HashMap<String, EmpRecord> emplist) {
         this.emplist = emplist;
     }
 
-    public String getDayOpenReading() {
-        return dayOpenReading;
-    }
-
-    public void setDayOpenReading(String dayOpenReading) {
-        this.dayOpenReading = dayOpenReading;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 
     public long getTime() {
         return time;
@@ -144,5 +116,70 @@ public class FirebaseDataModel {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
 
         return simpleDateFormat.format(date);
+    }
+
+    public static class EmpRecord {
+        String empCode;
+        String empName;
+        String openReading;
+        String closeReading;
+        String remarks;
+
+        public EmpRecord() {
+        }
+
+        public EmpRecord(String empCode, String empName, String openReading, String closeReading, String remarks) {
+            this.empCode = empCode;
+            this.empName = empName;
+            this.openReading = openReading;
+            this.closeReading = closeReading;
+            this.remarks = remarks;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%-10s %30s- Open Reading:%s\n Close Reading:%s", empCode, empName, openReading, closeReading);
+        }
+
+
+        public String getRemarks() {
+            return remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks;
+        }
+
+        public String getEmpCode() {
+            return empCode;
+        }
+
+        public void setEmpCode(String empCode) {
+            this.empCode = empCode;
+        }
+
+        public String getEmpName() {
+            return empName;
+        }
+
+        public void setEmpName(String empName) {
+            this.empName = empName;
+        }
+
+        public String getOpenReading() {
+            return openReading;
+        }
+
+        public void setOpenReading(String openReading) {
+            this.openReading = openReading;
+        }
+
+        public String getCloseReading() {
+            return closeReading;
+        }
+
+        public void setCloseReading(String closeReading) {
+            this.closeReading = closeReading;
+        }
     }
 }
