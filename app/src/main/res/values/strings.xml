@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">Shift Manager</string>
+    <!-- Login Activity -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="auth_failed">Authentication failed</string>
+    <!-- UI Strings -->
     <string name="loading">Loading</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
     <string name="company_promo">Made with &#10084; by Fnplus</string>
+    <string name="action_logout">Logout</string>
     <string name="action_about">About</string>
 </resources>

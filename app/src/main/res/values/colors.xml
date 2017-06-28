@@ -6,7 +6,6 @@
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentDark">#c2185b</color>
-
     <!-- UI colors-->
     <color name="transparent">#00000000</color>
     <color name="semi_transparent">#bd000000</color>
@@ -14,17 +13,13 @@
     <color name="semi_light_transparent">#5a000000</color>
     <color name="semi_lighter_transparent">#2d000000</color>
     <color name="background_grey">#f2f2f2</color>
-    <color name="line_lighter_grey">#dedede</color>
-    <color name="line_light_grey">#d7a7a7a7</color>
-    <color name="item_grey">#eeeeee</color>
-    <color name="grey_lighter">#bcbcbc</color>
-    <color name="grey">#d7666666</color>
     <color name="white">#FFFFFF</color>
-
     <!-- Material Design Colors -->
     <color name="black">#000000</color>
     <color name="grey_50">#F5F5F5</color>
+    <color name="grey_100">#F5F5F5</color>
     <color name="grey_200">#EEEEEE</color>
+    <color name="grey_300">#E0E0E0</color>
     <color name="grey_500">#757575</color>
     <color name="light_blue_500">#03A9F4</color>
     <color name="google_blue_500">#4285F4</color>

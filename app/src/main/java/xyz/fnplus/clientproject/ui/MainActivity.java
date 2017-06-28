@@ -48,6 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.fnplus.clientproject.R;
+import xyz.fnplus.clientproject.app.AppController;
 import xyz.fnplus.clientproject.models.FirebaseDataModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -185,11 +186,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
             }
         });
-
     }
 
     @OnClick(R.id.btn_loom_submit)
@@ -428,43 +426,6 @@ public class MainActivity extends AppCompatActivity {
         mRgShiftDetails.clearCheck();
     }
 
-    public void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-    }
-
-    public void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        // noinspection SimplifiableIfStatement
-        if (id == R.id.action_about) {
-            Toast.makeText(this, "Thanks for using the app!", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @OnClick(R.id.btn_add_emp)
     public void onAddEmployeeClicked() {
         final Dialog d = new Dialog(this);
@@ -557,7 +518,47 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Setting Shift To Night", Toast.LENGTH_SHORT).show();
             mRbNight.setChecked(true);
         }
+    }
 
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        // noinspection SimplifiableIfStatement
+        if (id == R.id.action_about) {
+            Toast.makeText(this, "Thanks for using the app!", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        if (id == R.id.action_logout) {
+            AppController.getInstance().logoutUser();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
