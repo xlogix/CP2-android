@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp" android:orientation="vertical">
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="16dp"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,10 +17,10 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="Emp Code : "
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/txtinput_emp_code"
+            android:id="@+id/txt_input_emp_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -32,58 +33,64 @@
                 android:ems="4"
                 android:gravity="center"
                 android:inputType="number"
-
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
     <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="Emp Name : "
+            android:textSize="16sp" />
 
-            <TextView
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/txt_input_emp_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:focusable="true">
+
+            <EditText
+                android:id="@+id/txt_emp_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/txt_input_emp_name"
-                android:text="Emp Name : "
+                android:ems="4"
+                android:inputType="textCapCharacters"
                 android:textSize="16sp" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/txt_input_emp_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:focusable="true">
-
-                <EditText
-                    android:id="@+id/txt_emp_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="4"
-                    android:inputType="textCapCharacters"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-        <Button android:id="@+id/btn_dialog_confirm" android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/txt_input_emp_name"
-                android:layout_gravity="center"
-                android:layout_marginRight="20dp"
-                android:filterTouchesWhenObscured="true"
-
-                android:text="confirm"/>
-        <Button android:id="@+id/btn_dialog_cancel" android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txt_input_emp_name"
-
-                android:layout_gravity="center"
-                android:layout_toLeftOf="@+id/btn_dialog_confirm"
-                android:filterTouchesWhenObscured="true"
-                android:text="cancel"/>
-
+        </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_dialog_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/border_button_background"
+            android:filterTouchesWhenObscured="true"
+            android:text="confirm" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_dialog_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/border_button_background"
+            android:filterTouchesWhenObscured="true"
+            android:text="cancel" />
+
+    </RelativeLayout>
 </LinearLayout>

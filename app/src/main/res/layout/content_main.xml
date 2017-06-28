@@ -70,10 +70,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="32dp"
                     android:hint="Quality Name/Code : "
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </android.support.design.widget.TextInputLayout>
 
             <include
@@ -85,8 +85,8 @@
                 layout="@layout/card_view_emp_details_listview" />
 
             <include
-                android:id="@layout/card_view_readings"
-                layout="@layout/card_view_readings" />
+                android:id="@layout/card_view_emp_readings"
+                layout="@layout/card_view_emp_readings" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

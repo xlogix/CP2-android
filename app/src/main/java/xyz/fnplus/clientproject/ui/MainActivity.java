@@ -3,6 +3,7 @@ package xyz.fnplus.clientproject.ui;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -31,6 +32,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +50,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.fnplus.clientproject.R;
-import xyz.fnplus.clientproject.app.AppController;
 import xyz.fnplus.clientproject.models.FirebaseDataModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -137,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Set visibility of the form as NULL
         mFormLayout.setVisibility(View.GONE);
+        // New Employee
         mEmployeeHashMap = new HashMap<>();
 
         // Declare Firebase Database reference
@@ -181,8 +184,6 @@ public class MainActivity extends AppCompatActivity {
                             mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString());
                             updateListView();
                             d.dismiss();
-
-
                         }
                     }
                 });
@@ -247,10 +248,12 @@ public class MainActivity extends AppCompatActivity {
         showProgressDialog();
         // Logic
         if (validateDetails()) {
+            // Declaring Buttons
             RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
             RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
             String LastReading = "";
+
             if (!TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
                 LastReading = mTextViewDayClosereading.getText().toString();
                 mTextViewDayClosereading.setText(null);
@@ -304,23 +307,6 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Add at least One employee", Toast.LENGTH_SHORT).show();
         }
-    /*  OPTIONAL FIELDS
-      if (TextUtils.isEmpty(mTextView.getText().toString())) {
-            validate = false;
-            mTextView.setError("Enter Quality Name/Code");
-            Toast.makeText(this, "Enter Quality Name/Code", Toast.LENGTH_SHORT).show();
-        }
-        if (TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())) {
-            validate = false;
-            mTextViewDayOpenreading.setError("Enter Day Open Reading");
-            Toast.makeText(this, "Enter Day Open Reading", Toast.LENGTH_SHORT).show();
-        }
-        if (TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
-            validate = false;
-            mTextViewDayClosereading.setError("Enter Day Close Reading");
-            Toast.makeText(this, "Enter Day Close Reading", Toast.LENGTH_SHORT).show();
-        }
-        */
         if (TextUtils.isEmpty(mEditTxtRemark.getText().toString())) {
             validate = false;
             mEditTxtRemark.setError("Enter Remark");
@@ -355,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
             mDbLastReading.setText("N/A");
         else
             mDbLastReading.setText(model.getLastReading());
+
         mTxtLastReadingDate.setText(model.getDate());
         mTxtLastReadingShift.setText(model.getShift());
         mShiftdate.setText(model.getDate());
@@ -373,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
         }
+        // Setting the date to next day
         setShiftFromCurrentTime();
 
         switch (model.getMessSize()) {
@@ -406,11 +394,10 @@ public class MainActivity extends AppCompatActivity {
                 mRbStatus5.setChecked(true);
                 break;
         }
-
-
     }
 
     void clearDataInView() {
+        // Update UI
         mDbLastReading.setText("N/A");
         mTxtLastReadingDate.setText("N/A");
         mTxtLastReadingShift.setText("N/A");
@@ -431,10 +418,12 @@ public class MainActivity extends AppCompatActivity {
         final Dialog d = new Dialog(this);
         d.setContentView(R.layout.card_view_emp_details_dialog);
         d.setTitle("Enter Employee Details");
+        // Declaring Views
         final EditText mTxtEmpCode = (EditText) d.findViewById(R.id.txt_emp_code);
         final EditText mTxtEmpName = (EditText) d.findViewById(R.id.txt_emp_name);
         Button mConfirm = (Button) d.findViewById(R.id.btn_dialog_confirm);
         Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
+        // On Click
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -463,7 +452,6 @@ public class MainActivity extends AppCompatActivity {
                         d.dismiss();
                     } else
                         Toast.makeText(MainActivity.this, "Employee Code Already Exists", Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
@@ -510,12 +498,8 @@ public class MainActivity extends AppCompatActivity {
         int hours = cal.get(Calendar.HOUR_OF_DAY);
 
         if (hours >= 6 || hours <= 16) {
-
-            Toast.makeText(this, "Setting Shift To Day", Toast.LENGTH_SHORT).show();
             mRbDay.setChecked(true);
         } else if (hours >= 17 || hours <= 5) {
-
-            Toast.makeText(this, "Setting Shift To Night", Toast.LENGTH_SHORT).show();
             mRbNight.setChecked(true);
         }
     }
@@ -555,7 +539,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_logout) {
-            AppController.getInstance().logoutUser();
+            // SignOut from Firebase
+            FirebaseAuth.getInstance().signOut();
+            // Launch the intro activity
+            Intent intent = new Intent(this, SplashActivity.class);
+            // Closing all the Activities & Add new Flag to start new Activity
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
             return true;
         }
         return super.onOptionsItemSelected(item);

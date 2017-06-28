@@ -2,6 +2,7 @@ package xyz.fnplus.clientproject.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -32,8 +33,6 @@ public class AuthActivity extends AppCompatActivity implements
     private static final String TAG = AuthActivity.class.getSimpleName();
 
     private ProgressDialog mProgressDialog;
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
     private TextView mForgotPasswordTextView;
@@ -86,6 +85,8 @@ public class AuthActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
+                            // Main Intent
+                            authToMainIntent();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -117,39 +118,47 @@ public class AuthActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            // Main Intent
+                            authToMainIntent();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(AuthActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // [START_EXCLUDE]
-                        if (!task.isSuccessful()) {
-                            mStatusTextView.setText(R.string.auth_failed);
-                        }
+                        // Update UI
                         hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
         // [END sign_in_with_email]
     }
 
     private void sendPasswordResetEmail(String emailAddress) {
-        mAuth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
-                            Toast.makeText(AuthActivity.this, "Password Reset email sent to " + mEmailField.getText().toString(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(AuthActivity.this, "Failed to send password reset email.",
-                                    Toast.LENGTH_SHORT).show();
+
+        String email = mEmailField.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            mEmailField.setError("Required.");
+        } else {
+            // UI
+            mEmailField.setError(null);
+            // Logic
+            mAuth.sendPasswordResetEmail(emailAddress)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Email sent.");
+                                Toast.makeText(AuthActivity.this, "Password Reset email sent to " + mEmailField.getText().toString(),
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(AuthActivity.this, "Failed to send password reset email.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+
+        }
     }
 
     private boolean validateForm() {
@@ -177,6 +186,14 @@ public class AuthActivity extends AppCompatActivity implements
         }
 
         return valid;
+    }
+
+    private void authToMainIntent() {
+        Intent intentLoginMain = new Intent(AuthActivity.this, MainActivity.class);
+        intentLoginMain.setAction(Intent.ACTION_MAIN);
+        intentLoginMain.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intentLoginMain);
+        finish();
     }
 
     @Override

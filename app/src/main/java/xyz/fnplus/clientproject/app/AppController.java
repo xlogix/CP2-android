@@ -37,14 +37,4 @@ public class AppController extends Application {
             mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
         }
     }
-
-    public void logoutUser() {
-        // SignOut from Firebase
-        FirebaseAuth.getInstance().signOut();
-        // Launch the intro activity
-        Intent intent = new Intent(this, SplashActivity.class);
-        // Closing all the Activities & Add new Flag to start new Activity
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
 }
