@@ -62,6 +62,6 @@
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:permission="xyz.fnplus.clientproject.SECURE"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBarTransparent" />
     </application>
 </manifest>

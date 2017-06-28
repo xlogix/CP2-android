@@ -167,9 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
-
-
                 Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
                 mCancel.setText("Delete");
                 mCancel.setOnClickListener(new View.OnClickListener() {
@@ -356,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
         mTxtLastReadingShift.setText(model.getShift());
         mShiftdate.setText(model.getDate());
         if (model.getEmplist() != null && !model.getEmplist().isEmpty())
-        mEmployeeHashMap.putAll(model.getEmplist());
+            mEmployeeHashMap.putAll(model.getEmplist());
         updateListView();
 
         mTextView.setText(model.getQuality());
@@ -431,8 +428,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText mTxtEmpName = (EditText) d.findViewById(R.id.txt_emp_name);
         Button mConfirm = (Button) d.findViewById(R.id.btn_dialog_confirm);
         Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
-        final EditText mTextViewDayOpenreading = (EditText) d.findViewById(R.id.textView_day_Openreading);
-        final EditText mTextViewDayClosereading = (EditText) d.findViewById(R.id.textView_day_Closereading);
+        final EditText mTextViewDayOpenReading = (EditText) d.findViewById(R.id.textView_day_Openreading);
+        final EditText mTextViewDayCloseReading = (EditText) d.findViewById(R.id.textView_day_Closereading);
         final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
 
         // On Click
@@ -460,9 +457,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if (validate) {
                     if (!mEmployeeHashMap.containsKey("ID" + mTxtEmpCode.getText().toString())) {
-                        FirebaseDataModel.EmpRecord record = new FirebaseDataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString());
+                        FirebaseDataModel.EmpRecord record = new FirebaseDataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenReading.getText().toString(), mTextViewDayCloseReading.getText().toString(), mEditTxtRemark.getText().toString());
                         mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), record);
-                        setLastReading(mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString());
+                        setLastReading(mTextViewDayOpenReading.getText().toString(), mTextViewDayCloseReading.getText().toString());
                         updateListView();
                         d.dismiss();
                     } else
@@ -578,7 +575,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setLastReading(String open, String close) {
-
         if (!TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
             LastReading = close;
         else if (!TextUtils.isEmpty(open) && TextUtils.isEmpty(close))
@@ -598,8 +594,6 @@ public class MainActivity extends AppCompatActivity {
         clearDataInView();
         mFormLayout.setVisibility(View.GONE);
         Snackbar.make(v, "Loom Data Reset Successfully!", Snackbar.LENGTH_LONG).show();
-
-
     }
 }
 

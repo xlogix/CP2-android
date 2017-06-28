@@ -85,6 +85,8 @@ public class AuthActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
+                            // Update UI
+                            Toast.makeText(AuthActivity.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                             // Main Intent
                             authToMainIntent();
                         } else {
@@ -118,6 +120,8 @@ public class AuthActivity extends AppCompatActivity implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+                            // Update UI
+                            Toast.makeText(AuthActivity.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
                             // Main Intent
                             authToMainIntent();
                         } else {

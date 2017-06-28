@@ -30,7 +30,6 @@ public class FirebaseDataModel {
         this.status = status;
         this.emplist = emplist;
 
-
         this.quality = quality;
 
         // Initialize to current time
@@ -44,7 +43,6 @@ public class FirebaseDataModel {
     public void setDate(String date) {
         this.date = date;
     }
-
 
     public String getMessSize() {
         return messSize;
@@ -101,7 +99,6 @@ public class FirebaseDataModel {
     public void setEmplist(HashMap<String, EmpRecord> emplist) {
         this.emplist = emplist;
     }
-
 
     public long getTime() {
         return time;
