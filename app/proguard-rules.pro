@@ -35,6 +35,11 @@
 
 -keep interface android.support.v7.** { *; }
 
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+-keepattributes InnerClasses
+
 -keepclassmembers class xyz.fnplus.clientproject.models.** {
     *;
 }
