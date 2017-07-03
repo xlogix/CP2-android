@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
@@ -33,13 +34,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,96 +45,135 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.fnplus.clientproject.R;
-import xyz.fnplus.clientproject.models.FirebaseDataModel;
+import xyz.fnplus.clientproject.helpers.SQLiteHandler;
+import xyz.fnplus.clientproject.helpers.SessionManager;
+import xyz.fnplus.clientproject.models.DataModel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.edit_txt_loom)
     EditText mEditTxtLoom;
+
     @BindView(R.id.btn_loom_submit)
     AppCompatButton mBtnLoomSubmit;
+
     @BindView(R.id.txt_last_reading)
     TextView mTxtLastReading;
+
     @BindView(R.id.db_last_reading)
     TextView mDbLastReading;
+
     @BindView(R.id.textView)
     AutoCompleteTextView mTextView;
+
     @BindView(R.id.txt_mess_size)
     TextView mTxtMessSize;
+
     @BindView(R.id.rb_mess1)
     RadioButton mRbMess1;
+
     @BindView(R.id.rb_mess2)
     RadioButton mRbMess2;
+
     @BindView(R.id.rb_mess3)
     RadioButton mRbMess3;
+
     @BindView(R.id.rb_mess4)
     RadioButton mRbMess4;
     @BindView(R.id.rg_mess)
     RadioGroup mRgMess;
+
     @BindView(R.id.txt_status)
     TextView mTxtStatus;
+
     @BindView(R.id.rb_status1)
     RadioButton mRbStatus1;
     @BindView(R.id.rb_status2)
     RadioButton mRbStatus2;
+
     @BindView(R.id.rb_status3)
     RadioButton mRbStatus3;
+
     @BindView(R.id.rb_status4)
     RadioButton mRbStatus4;
+
     @BindView(R.id.rb_status5)
     RadioButton mRbStatus5;
+
     @BindView(R.id.rg_status)
     RadioGroup mRgStatus;
 
-
     @BindView(R.id.btn_details_submit)
     AppCompatButton mBtnDetailsSubmit;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
     @BindView(R.id.toolbar_layout)
     CollapsingToolbarLayout mToolbarLayout;
+
     @BindView(R.id.app_bar)
     AppBarLayout mAppBar;
+
     @BindView(R.id.shiftdate)
     EditText mShiftdate;
+
     @BindView(R.id.rb_day)
     RadioButton mRbDay;
+
     @BindView(R.id.rb_night)
     RadioButton mRbNight;
+
     @BindView(R.id.rg_shift_details)
     RadioGroup mRgShiftDetails;
+
     @BindView(R.id.form_layout)
     LinearLayout mFormLayout;
+
     @BindView(R.id.txt_last_reading_date)
     TextView mTxtLastReadingDate;
+
     @BindView(R.id.txt_last_reading_shift)
     TextView mTxtLastReadingShift;
+
     @BindView(R.id.btn_add_emp)
     ImageButton mBtnAddEmp;
+
     @BindView(R.id.list_view)
     ListView mListView;
+
     @BindView(R.id.btn_details_reset)
     AppCompatButton mBtnDetailsReset;
+
     private String LastReading;
-    private DatabaseReference mFirebaseDatabaseReference;
+    private SQLiteHandler db;
+    private SessionManager session;
     private ProgressDialog mProgressDialog;
-    private HashMap<String, FirebaseDataModel.EmpRecord> mEmployeeHashMap;
+    private HashMap<String, DataModel.EmpRecord> mEmployeeHashMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Bind View
         ButterKnife.bind(this);
+        // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+        // Session manager
+        session = new SessionManager(getApplicationContext());
+
+        if (!session.isLoggedIn()) {
+            logoutUser();
+        }
         // Set visibility of the form as NULL
         mFormLayout.setVisibility(View.GONE);
         // New Employee
         mEmployeeHashMap = new HashMap<>();
 
-        // Declare Firebase Database reference
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -156,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 final EditText mTextViewDayClosereading = (EditText) d.findViewById(R.id.textView_day_Closereading);
                 final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
 
-                if (!selectedItem.equals("No Data To Display- ")) {
+                /*if (!selectedItem.equals("No Data To Display- ")) {
                     FirebaseDataModel.EmpRecord record = mEmployeeHashMap.get(selectedItem.substring(0, selectedItem.indexOf(" ")));
                     mTxtEmpCode.setText(selectedItem.substring(0, selectedItem.indexOf(" ")).substring(2));
                     mEditTxtRemark.setText(record.getRemarks());
@@ -165,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     mTextViewDayClosereading.setText(record.getCloseReading());
                     mTextViewDayOpenreading.setText(record.getOpenReading());
 
-                }
+                }*/
 
                 Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
                 mCancel.setText("Delete");
@@ -177,7 +210,9 @@ public class MainActivity extends AppCompatActivity {
                         d.dismiss();
                     }
                 });
+
                 d.show();
+
                 mConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -189,13 +224,13 @@ public class MainActivity extends AppCompatActivity {
                             mTxtEmpCode.setError("Enter employee name");
                             Toast.makeText(MainActivity.this, "Enter employee name", Toast.LENGTH_SHORT).show();
                         }
-                        if (validate) {
+                        /*if (validate) {
                             FirebaseDataModel.EmpRecord record = new FirebaseDataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString(), mEditTxtRemark.getText().toString());
                             mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), record);
                             setLastReading(mTextViewDayOpenreading.getText().toString(), mTextViewDayClosereading.getText().toString());
                             updateListView();
                             d.dismiss();
-                        }
+                        }*/
                     }
                 });
             }
@@ -222,10 +257,10 @@ public class MainActivity extends AppCompatActivity {
             // UI
             hideProgressDialog();
             // Logic
-            mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+           /* mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    FirebaseDataModel dm = dataSnapshot.getValue(FirebaseDataModel.class);
+                    DataModel dm = dataSnapshot.getValue(DataModel.class);
                     if (dm == null) {
                         // Clear previous data
                         clearDataInView();
@@ -257,12 +292,7 @@ public class MainActivity extends AppCompatActivity {
                         mBtnDetailsReset.setEnabled(true);
                     }
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            });*/
         }
     }
 
@@ -278,9 +308,9 @@ public class MainActivity extends AppCompatActivity {
             RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
 
 
-            FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), LastReading, mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextView.getText().toString());
+           /* FirebaseDataModel model = new FirebaseDataModel(mEditTxtLoom.getText().toString(), LastReading, mShiftdate.getText().toString(), shift.getText().toString(), messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, mTextView.getText().toString());
             // sending to Firebase
-            mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);
+            mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).setValue(model);*/
             // UI
             hideProgressDialog();
             Snackbar.make(v, "Data sent! Loom Updated", Snackbar.LENGTH_LONG).show();
@@ -341,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
         StartTime.show();
     }
 
-    void setDataToView(FirebaseDataModel model) {
+    void setDataToView(DataModel model) {
 
         if (model.getLastReading() == null)
             mDbLastReading.setText("N/A");
@@ -457,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (validate) {
                     if (!mEmployeeHashMap.containsKey("ID" + mTxtEmpCode.getText().toString())) {
-                        FirebaseDataModel.EmpRecord record = new FirebaseDataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenReading.getText().toString(), mTextViewDayCloseReading.getText().toString(), mEditTxtRemark.getText().toString());
+                        DataModel.EmpRecord record = new DataModel.EmpRecord("ID" + mTxtEmpCode.getText().toString(), mTxtEmpName.getText().toString(), mTextViewDayOpenReading.getText().toString(), mTextViewDayCloseReading.getText().toString(), mEditTxtRemark.getText().toString());
                         mEmployeeHashMap.put("ID" + mTxtEmpCode.getText().toString(), record);
                         setLastReading(mTextViewDayOpenReading.getText().toString(), mTextViewDayCloseReading.getText().toString());
                         updateListView();
@@ -476,10 +506,11 @@ public class MainActivity extends AppCompatActivity {
         if (mEmployeeHashMap.isEmpty()) {
             items.add("No Data To Display- ");
         } else {
-            for (Map.Entry<String, FirebaseDataModel.EmpRecord> e : mEmployeeHashMap.entrySet())
+            for (Map.Entry<String, DataModel.EmpRecord> e : mEmployeeHashMap.entrySet())
                 items.add(e.getValue().toString());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, items) {
+            @NonNull
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
@@ -526,6 +557,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setLastReading(String open, String close) {
+        if (!TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
+            LastReading = close;
+        else if (!TextUtils.isEmpty(open) && TextUtils.isEmpty(close))
+            LastReading = open;
+        else if (TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
+            LastReading = close;
+        else LastReading = "";
+
+    }
+
+    @OnClick(R.id.btn_details_reset)
+    public void onResetClicked(View v) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy", Locale.UK);
+       /* mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).child("previousReadings").child(sdf.format(calendar.getTime())).setValue(mEmployeeHashMap);
+        mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).child("emplist").setValue(null);*/
+        clearDataInView();
+        mFormLayout.setVisibility(View.GONE);
+        Snackbar.make(v, "Loom Data Reset Successfully!", Snackbar.LENGTH_LONG).show();
+    }
+
+    /**
+     * Logging out the user. Will set 'isLoggedIn' flag to false in shared
+     * preferences. Clears user data from sqlite users table
+     */
+    private void logoutUser() {
+        // Set Login to false
+        session.setLogin(false);
+        // Delete Database
+        db.deleteUsers();
+        // Launch the intro activity
+        Intent intent = new Intent(this, SplashActivity.class);
+        // Closing all the Activities & Add new Flag to start new Activity
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -561,39 +630,11 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_logout) {
-            // SignOut from Firebase
-            FirebaseAuth.getInstance().signOut();
-            // Launch the intro activity
-            Intent intent = new Intent(this, SplashActivity.class);
-            // Closing all the Activities & Add new Flag to start new Activity
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-
+            // Call to logout function
+            logoutUser();
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setLastReading(String open, String close) {
-        if (!TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
-            LastReading = close;
-        else if (!TextUtils.isEmpty(open) && TextUtils.isEmpty(close))
-            LastReading = open;
-        else if (TextUtils.isEmpty(open) && !TextUtils.isEmpty(close))
-            LastReading = close;
-        else LastReading = "";
-
-    }
-
-    @OnClick(R.id.btn_details_reset)
-    public void onResetClicked(View v) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy", Locale.UK);
-        mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).child("previousReadings").child(sdf.format(calendar.getTime())).setValue(mEmployeeHashMap);
-        mFirebaseDatabaseReference.child("LOOMS").child(mEditTxtLoom.getText().toString()).child("emplist").setValue(null);
-        clearDataInView();
-        mFormLayout.setVisibility(View.GONE);
-        Snackbar.make(v, "Loom Data Reset Successfully!", Snackbar.LENGTH_LONG).show();
     }
 }
 

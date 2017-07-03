@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class FirebaseDataModel {
+public class DataModel {
     private String loomNumber;
     private String lastReading;
     private String date;
@@ -17,11 +17,11 @@ public class FirebaseDataModel {
 
     private long time;
 
-    public FirebaseDataModel() {
+    public DataModel() {
     }
 
-    public FirebaseDataModel(String loomNumber, String lastReading, String date, String shift, String messSize, String status,
-                             HashMap<String, EmpRecord> emplist, String quality) {
+    public DataModel(String loomNumber, String lastReading, String date, String shift, String messSize, String status,
+                     HashMap<String, EmpRecord> emplist, String quality) {
         this.loomNumber = loomNumber;
         this.lastReading = lastReading;
         this.date = date;

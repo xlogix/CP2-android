@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import xyz.fnplus.clientproject.R;
+import xyz.fnplus.clientproject.helpers.SQLiteHandler;
+import xyz.fnplus.clientproject.helpers.SessionManager;
 
 public class SplashActivity extends Activity {
     private static final String TAG = SplashActivity.class.getSimpleName();
+
+    private SQLiteHandler db;
+    private SessionManager session;
 
     @Override
     protected void onPause() {
@@ -29,8 +31,10 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Obtain the current logged in user
-        final FirebaseUser mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        // SqLite database handler
+        db = new SQLiteHandler(getApplicationContext());
+        // Session manager
+        session = new SessionManager(getApplicationContext());
         // Splash screen timer
         final int SPLASH_TIME_OUT = 1000;
 
@@ -40,9 +44,9 @@ public class SplashActivity extends Activity {
              * want to show case your app logo / company
              */
             public void run() {
-                if (mFirebaseUser == null) {
-                    Log.d(TAG, "Pass to auth activity");
-                    startActivity(new Intent(SplashActivity.this, AuthActivity.class));
+                if (!session.isLoggedIn()) {
+                    Log.d(TAG, "Pass to login activity");
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 } else {
                     Log.d(TAG, "Pass to main activity");
