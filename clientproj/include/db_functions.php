@@ -25,7 +25,7 @@ class db_functions {
         $uuid = uniqid('', true);
         
         $stmt = $this->conn->prepare("INSERT INTO users(id, name, email, designation, member_from, password) VALUES(?, ?, ?, ?, NOW(), ?)");
-        $stmt->bind_param("ssssss", $uuid, $name, $email, $password, );
+        $stmt->bind_param("sssss", $uuid, $name, $email,$designation, $password );
         $result = $stmt->execute();
         $stmt->close();
 
@@ -55,10 +55,11 @@ class db_functions {
         if ($stmt->execute()) {
             $user = $stmt->get_result()->fetch_assoc();
             $stmt->close();
-
-            $hash
-            // check for password equality
-            if ($encrypted_password == $hash) {
+            
+            // $hash=$user->$password;
+            // // check for password equality
+            // if ($encrypted_password == $hash) 
+            if($user["password"]==$password){
                 // user authentication details are correct
                 return $user;
             }

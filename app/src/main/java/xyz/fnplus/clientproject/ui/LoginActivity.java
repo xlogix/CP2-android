@@ -5,24 +5,23 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import xyz.fnplus.clientproject.R;
 import xyz.fnplus.clientproject.app.AppConfig;
 import xyz.fnplus.clientproject.app.AppController;
@@ -31,8 +30,19 @@ import xyz.fnplus.clientproject.helpers.SessionManager;
 
 public class LoginActivity extends Activity {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private EditText inputEmail;
-    private EditText inputPassword;
+    @BindView(R.id.login_relative_layout)
+    ImageView mLoginRelativeLayout;
+    @BindView(R.id.field_email)
+    TextInputEditText mFieldEmail;
+    @BindView(R.id.field_password)
+    TextInputEditText mFieldPassword;
+    @BindView(R.id.btn_sign_in)
+    AppCompatButton mBtnSignIn;
+    @BindView(R.id.btn_link_to_register_screen)
+    AppCompatButton mBtnLinkToRegisterScreen;
+    @BindView(R.id.login_main_layout)
+    ScrollView mLoginMainLayout;
+
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -41,20 +51,16 @@ public class LoginActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         // Main View
-        ScrollView mScrollView = (ScrollView) findViewById(R.id.login_main_layout);
         // Setup animation
-        AnimationDrawable animationDrawable = (AnimationDrawable) mScrollView.getBackground();
+        AnimationDrawable animationDrawable = (AnimationDrawable) mLoginMainLayout.getBackground();
         animationDrawable.setEnterFadeDuration(2500);
         animationDrawable.setExitFadeDuration(2500);
         animationDrawable.start();
 
-        inputEmail = (EditText) findViewById(R.id.email);
-        inputPassword = (EditText) findViewById(R.id.password);
         // Buttons
-        AppCompatButton btnLogin = (AppCompatButton) findViewById(R.id.btn_sign_in);
-        AppCompatButton btnLinkToRegister = (AppCompatButton) findViewById(R.id.btn_link_to_login_screen);
 
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -71,11 +77,11 @@ public class LoginActivity extends Activity {
         }
 
         // Login button Click Event
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        mBtnSignIn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
+                String email = mFieldEmail.getText().toString().trim();
+                String password = mFieldPassword.getText().toString().trim();
 
                 // Check for empty data in the form
                 if (!email.isEmpty() && !password.isEmpty()) {
@@ -92,7 +98,7 @@ public class LoginActivity extends Activity {
         });
 
         // Link to Register Screen
-        btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
+        mBtnLinkToRegisterScreen.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(),
@@ -137,7 +143,7 @@ public class LoginActivity extends Activity {
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user.getString("created_at");
+                        String created_at = user.getString("member_from");
 
                         // Inserting row in users table
                         db.addUser(name, email, uid, "admin", created_at, "admin");

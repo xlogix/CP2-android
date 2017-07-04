@@ -6,7 +6,7 @@ $db = new db_functions();
 // json response array
 $response = array("error" => FALSE);
 
-if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
+if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['password'])) {
 
     // receiving the post params
     $name = $_POST['name'];
@@ -21,7 +21,7 @@ if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])
         echo json_encode($response);
     } else {
         // create a new user
-        $user = $db->storeUser($name, $email, $password);
+        $user = $db->storeUser($name, $email,'Web Developer', $password);
         if ($user) {
             // user stored successfully
             $response["error"] = FALSE;

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import java.util.HashMap;
 
 public class SQLiteHandler extends SQLiteOpenHelper {
@@ -41,7 +40,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_EMAIL + " TEXT UNIQUE," + KEY_PASSWORD + " TEXT UNIQUE," + KEY_DESIGNATION + " TEXT,"
-                + KEY_MEMBER_FROM + " TEXT" + KEY_MEMBER_TYPE + " TEXT UNIQUE," + ")";
+            + KEY_MEMBER_FROM + " TEXT ," + KEY_MEMBER_TYPE + " TEXT UNIQUE" + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
 
         Log.d(TAG, "Database tables created");

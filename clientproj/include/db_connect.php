@@ -11,10 +11,11 @@ class db_connect {
      */
     function connect() {
         // import database connection variables
-        require_once __DIR__ . '/include/db_config.php';
+        require_once __DIR__ . '/db_config.php';
+        
 
          // Connecting to mysql database
-        $this->conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
+        $this->conn = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
         
         // return database handler
         return $this->conn;
