@@ -2,12 +2,11 @@ package xyz.fnplus.clientproject.app;
 
 import android.app.Application;
 import android.text.TextUtils;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.stetho.Stetho;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
 import xyz.fnplus.clientproject.BuildConfig;
 
 /**
@@ -16,10 +15,8 @@ import xyz.fnplus.clientproject.BuildConfig;
 
 public class AppController extends Application {
     public static final String TAG = AppController.class.getSimpleName();
-
-    private RequestQueue mRequestQueue;
-
     private static AppController mInstance;
+    private RequestQueue mRequestQueue;
 
     public static synchronized AppController getInstance() {
         return mInstance;
@@ -31,6 +28,7 @@ public class AppController extends Application {
         mInstance = this;
 
         if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
             // Do something
         } else {
             // Declare

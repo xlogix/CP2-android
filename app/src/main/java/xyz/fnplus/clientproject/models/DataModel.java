@@ -1,27 +1,41 @@
 package xyz.fnplus.clientproject.models;
 
+import com.google.gson.annotations.SerializedName;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class DataModel {
+    @SerializedName("openreading")
+    String openReading;
+    @SerializedName("closereading")
+    String closeReading;
+    @SerializedName("loomNumber")
     private String loomNumber;
+    @SerializedName("lastReading")
     private String lastReading;
+    @SerializedName("date")
     private String date;
+    @SerializedName("quality")
     private String quality;
+    @SerializedName("shift")
     private String shift;
+    @SerializedName("messSize")
     private String messSize;
+    @SerializedName("status")
     private String status;
+    @SerializedName("emplist")
     private HashMap<String, EmpRecord> emplist;
-
+    @SerializedName("time")
     private long time;
 
     public DataModel() {
     }
 
     public DataModel(String loomNumber, String lastReading, String date, String shift, String messSize, String status,
-                     HashMap<String, EmpRecord> emplist, String quality) {
+        HashMap<String, EmpRecord> emplist, String openReading, String closeReading,
+        String quality) {
         this.loomNumber = loomNumber;
         this.lastReading = lastReading;
         this.date = date;
@@ -34,6 +48,24 @@ public class DataModel {
 
         // Initialize to current time
         time = new Date().getTime();
+        this.openReading = openReading;
+        this.closeReading = closeReading;
+    }
+
+    public String getOpenReading() {
+        return openReading;
+    }
+
+    public void setOpenReading(String openReading) {
+        this.openReading = openReading;
+    }
+
+    public String getCloseReading() {
+        return closeReading;
+    }
+
+    public void setCloseReading(String closeReading) {
+        this.closeReading = closeReading;
     }
 
     public String getDate() {
@@ -116,10 +148,15 @@ public class DataModel {
     }
 
     public static class EmpRecord {
+        @SerializedName("empCode")
         String empCode;
+        @SerializedName("empName")
         String empName;
+        @SerializedName("openReading")
         String openReading;
+        @SerializedName("closeReading")
         String closeReading;
+        @SerializedName("remarks")
         String remarks;
 
         public EmpRecord() {
@@ -135,7 +172,8 @@ public class DataModel {
 
         @Override
         public String toString() {
-            return String.format("%-10s %30s- Open Reading:%s\n Close Reading:%s", empCode, empName, openReading, closeReading);
+            return String.format("%-10s %20s- Open Reading:%s\n Close Reading:%s", empCode, empName,
+                openReading, closeReading);
         }
 
 
