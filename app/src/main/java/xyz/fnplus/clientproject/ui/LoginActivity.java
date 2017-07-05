@@ -38,8 +38,6 @@ public class LoginActivity extends Activity {
     TextInputEditText mFieldPassword;
     @BindView(R.id.btn_sign_in)
     AppCompatButton mBtnSignIn;
-    @BindView(R.id.btn_link_to_register_screen)
-    AppCompatButton mBtnLinkToRegisterScreen;
     @BindView(R.id.login_main_layout)
     ScrollView mLoginMainLayout;
 
@@ -59,8 +57,6 @@ public class LoginActivity extends Activity {
         animationDrawable.setEnterFadeDuration(2500);
         animationDrawable.setExitFadeDuration(2500);
         animationDrawable.start();
-
-        // Buttons
 
         // SQLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -96,18 +92,6 @@ public class LoginActivity extends Activity {
             }
 
         });
-
-        // Link to Register Screen
-        mBtnLinkToRegisterScreen.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        RegisterActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });
-
     }
 
     /**

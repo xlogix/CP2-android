@@ -7,13 +7,6 @@
     <string name="hint_password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_out">Sign Out</string>
-    <string name="btn_link_to_register">Not a member? Sign up now.</string>
-
-    <!-- Registration -->
-    <string name="hint_name">Name</string>
-    <string name="register">Register</string>
-    <string name="btn_link_to_login">Already registered! Sign in here.</string>
-    <string name="name">Name</string>
 
     <!-- UI Strings -->
     <string name="loading">Loading</string>

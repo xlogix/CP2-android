@@ -13,7 +13,6 @@ import xyz.fnplus.clientproject.helpers.SessionManager;
 public class SplashActivity extends Activity {
     private static final String TAG = SplashActivity.class.getSimpleName();
 
-    private SQLiteHandler db;
     private SessionManager session;
 
     @Override
@@ -31,8 +30,6 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // SqLite database handler
-        db = new SQLiteHandler(getApplicationContext());
         // Session manager
         session = new SessionManager(getApplicationContext());
         // Splash screen timer
