@@ -12,16 +12,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import java.util.HashMap;
-import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import xyz.fnplus.clientproject.R;
 import xyz.fnplus.clientproject.app.AppConfig;
 import xyz.fnplus.clientproject.app.AppController;

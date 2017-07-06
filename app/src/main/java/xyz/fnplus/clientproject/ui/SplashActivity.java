@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import xyz.fnplus.clientproject.R;
-import xyz.fnplus.clientproject.helpers.SQLiteHandler;
 import xyz.fnplus.clientproject.helpers.SessionManager;
 
 public class SplashActivity extends Activity {

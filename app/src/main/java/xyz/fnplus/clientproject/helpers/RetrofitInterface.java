@@ -11,12 +11,13 @@ import xyz.fnplus.clientproject.models.DataModel;
 /**
  * Created by krsnv on 05-Jul-17.
  */
+
 public interface RetrofitInterface {
 
-  @GET("getloom.php")
-  Call<DataModel> getLoomInfo(@Query("no") String loomNo);
+    @GET("getloom.php")
+    Call<DataModel> getLoomInfo(@Query("no") String loomNo);
 
-  @FormUrlEncoded
-  @POST("setloom.php")
-  Call<Void> setLoomInfo(@Field("loom") String loomdetails);
+    @FormUrlEncoded
+    @POST("setloom.php")
+    Call<Void> setLoomInfo(@Field("loom") String loomdetails);
 }
