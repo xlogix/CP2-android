@@ -9,7 +9,7 @@ import java.util.Locale;
 public class DataModel {
   @SerializedName("start_reading")
   String openReading;
-  @SerializedName("end_reading")
+  @SerializedName("close_reading")
   String closeReading;
   @SerializedName("loom_no")
   private String loomNumber;
