@@ -684,7 +684,9 @@ public class MainActivity extends AppCompatActivity {
           if (response.isSuccessful()) {
             hideProgressDialog();
             Snackbar.make(v, "Data sent! Loom Reset", Snackbar.LENGTH_LONG).show();
+            clearDataInView();
             mFormLayout.setVisibility(View.GONE);
+            Snackbar.make(v, "Loom Data Reset Successfully!", Snackbar.LENGTH_LONG).show();
           } else {
             hideProgressDialog();
             Snackbar.make(v, "Something went wrong with server. Try Again" + response.errorBody(),
@@ -699,9 +701,6 @@ public class MainActivity extends AppCompatActivity {
               Snackbar.LENGTH_SHORT).show();
         }
       });
-      clearDataInView();
-      mFormLayout.setVisibility(View.GONE);
-      Snackbar.make(v, "Loom Data Reset Successfully!", Snackbar.LENGTH_LONG).show();
     }
   }
 
