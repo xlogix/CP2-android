@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,115 +8,130 @@
     android:background="@drawable/gradient_main"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="xyz.fnplus.clientproject.ui.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    >
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="16dp"
+      >
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:focusable="true"
+        android:theme="@style/EditTextTheme"
+        >
 
-        <android.support.design.widget.TextInputLayout
+      <EditText
+          android:id="@+id/edit_txt_loom"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:hint="Enter Loom Number"
+          android:inputType="number"
+          android:textColor="@color/white"
+          android:textSize="20sp"
+          tools:layout_editor_absoluteX="16dp"
+          />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_loom_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_button_background"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+
+    <LinearLayout
+        android:id="@+id/form_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+      <include
+          layout="@layout/card_view_last_reading_details"
+          android:id="@+id/card_view_last_reading_details"
+          />
+
+      <include
+          layout="@layout/card_view_shift_details"
+          android:id="@layout/card_view_shift_details"
+          />
+
+      <android.support.design.widget.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:focusable="true"
+          android:theme="@style/EditTextTheme"
+          >
+
+        <AutoCompleteTextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:theme="@style/EditTextTheme">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:hint="Quality Name/Code : "
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            />
+      </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/edit_txt_loom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Enter Loom Number"
-                android:inputType="number"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                tools:layout_editor_absoluteX="16dp" />
-        </android.support.design.widget.TextInputLayout>
+      <include
+          layout="@layout/card_view_mess_size"
+          android:id="@+id/card_view_mess_size"
+          />
+
+      <include
+          layout="@layout/card_view_emp_details_listview"
+          android:id="@+id/card_view_emp_details"
+          />
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginBottom="16dp"
+          android:layout_marginTop="16dp"
+          >
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_loom_submit"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_details_reset"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_button_background"
+            android:text="Reset"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_details_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_details_reset"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/border_button_background"
-            android:text="Submit"
+            android:text="Save Changes"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/form_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/card_view_last_reading_details"
-                layout="@layout/card_view_last_reading_details" />
-
-            <include
-                android:id="@layout/card_view_shift_details"
-                layout="@layout/card_view_shift_details" />
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="true"
-                android:theme="@style/EditTextTheme">
-
-                <AutoCompleteTextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="32dp"
-                    android:hint="Quality Name/Code : "
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <include
-                android:id="@+id/card_view_mess_size"
-                layout="@layout/card_view_mess_size" />
-
-            <include
-                android:id="@+id/card_view_emp_details"
-                layout="@layout/card_view_emp_details_listview" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp">
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_details_reset"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/border_button_background"
-                    android:text="Reset"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_details_submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_details_reset"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/border_button_background"
-                    android:text="Save Changes"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </LinearLayout>
+            android:textStyle="bold"
+            />
+      </RelativeLayout>
     </LinearLayout>
+  </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

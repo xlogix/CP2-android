@@ -4,181 +4,204 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"
     android:layout_marginStart="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="Emp Code : "
+        android:textSize="16sp"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txt_input_emp_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:focusable="true"
+        >
+
+      <EditText
+          android:id="@+id/txt_emp_code"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ems="4"
+          android:gravity="center"
+          android:inputType="number"
+          android:textSize="16sp"
+          />
+    </android.support.design.widget.TextInputLayout>
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="Emp Name : "
+        android:textSize="16sp"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/txt_input_emp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:focusable="true"
+        >
+
+      <EditText
+          android:id="@+id/txt_emp_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ems="4"
+          android:inputType="textCapCharacters"
+          android:textSize="16sp"
+          />
+    </android.support.design.widget.TextInputLayout>
+  </RelativeLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
-        <TextView
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_centerVertical="true"
+          android:layout_toStartOf="@+id/text_input_day_open_reading"
+          android:text="Day Open Reading : "
+          android:textSize="16sp"
+          android:textStyle="bold"
+          />
+
+      <android.support.design.widget.TextInputLayout
+          android:id="@+id/text_input_day_open_reading"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:focusable="true"
+          >
+
+        <EditText
+            android:id="@+id/textView_day_Openreading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="Emp Code : "
-            android:textSize="16sp" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/txt_input_emp_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:focusable="true">
-
-            <EditText
-                android:id="@+id/txt_emp_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="4"
-                android:gravity="center"
-                android:inputType="number"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+            android:ems="4"
+            android:gravity="center"
+            android:inputType="number"
+            android:textSize="16sp"
+            />
+      </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
-        <TextView
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_centerVertical="true"
+          android:layout_toStartOf="@+id/text_input_day_close_reading"
+          android:text="Day End Reading    : "
+          android:textSize="16sp"
+          android:textStyle="bold"
+          />
+
+      <android.support.design.widget.TextInputLayout
+          android:id="@+id/text_input_day_close_reading"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:focusable="true"
+          >
+
+        <EditText
+            android:id="@+id/textView_day_Closereading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="Emp Name : "
-            android:textSize="16sp" />
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/txt_input_emp_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:focusable="true">
-
-            <EditText
-                android:id="@+id/txt_emp_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="4"
-                android:inputType="textCapCharacters"
-                android:textSize="16sp" />
-        </android.support.design.widget.TextInputLayout>
+            android:ems="4"
+            android:gravity="center"
+            android:inputType="number"
+            android:text=""
+            android:textSize="16sp"
+            />
+      </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:focusable="true"
+        >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+      <EditText
+          android:id="@+id/edit_txt_remark"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="16dp"
+          android:hint="Remark"
+          android:inputType="text"
+          />
+    </android.support.design.widget.TextInputLayout>
+  </LinearLayout>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/text_input_day_open_reading"
-                android:text="Day Open Reading : "
-                android:textSize="16sp"
-                android:textStyle="bold" />
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      >
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_day_open_reading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:focusable="true">
-
-                <EditText
-                    android:id="@+id/textView_day_Openreading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="4"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/text_input_day_close_reading"
-                android:text="Day End Reading    : "
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_day_close_reading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:focusable="true">
-
-                <EditText
-                    android:id="@+id/textView_day_Closereading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="4"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:text=""
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-        </RelativeLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true">
-
-            <EditText
-                android:id="@+id/edit_txt_remark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Remark"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_dialog_confirm"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:filterTouchesWhenObscured="true"
+        android:text="confirm"
+        android:textColor="@color/colorAccent"
+        />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_dialog_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:filterTouchesWhenObscured="true"
-            android:text="confirm"
-            android:textColor="@color/colorAccent" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_dialog_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="?selectableItemBackgroundBorderless"
-            android:filterTouchesWhenObscured="true"
-            android:text="cancel"
-            android:textColor="@color/colorAccent" />
-    </RelativeLayout>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_dialog_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:background="?selectableItemBackgroundBorderless"
+        android:filterTouchesWhenObscured="true"
+        android:text="cancel"
+        android:textColor="@color/colorAccent"
+        />
+  </RelativeLayout>
 </LinearLayout>

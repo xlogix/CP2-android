@@ -14,10 +14,10 @@ import xyz.fnplus.clientproject.models.DataModel;
 
 public interface RetrofitInterface {
 
-    @GET("getloom.php")
+    @GET("get_loom.php")
     Call<DataModel> getLoomInfo(@Query("no") String loomNo);
 
     @FormUrlEncoded
-    @POST("setloom.php")
+    @POST("set_loom.php")
     Call<Void> setLoomInfo(@Field("loom") String loomdetails);
 }

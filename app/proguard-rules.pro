@@ -35,6 +35,9 @@
 
 -keep interface android.support.v7.** { *; }
 
+-dontwarn okio.**
+-dontwarn retrofit2.Platform$Java8
+
 -keepattributes Signature
 -keepattributes *Annotation*
 -keepattributes EnclosingMethod
