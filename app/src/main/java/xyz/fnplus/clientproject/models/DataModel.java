@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class DataModel {
-  @SerializedName("openreading")
+  @SerializedName("start_reading")
   String openReading;
-  @SerializedName("closereading")
+  @SerializedName("end_reading")
   String closeReading;
-  @SerializedName("loomNumber")
+  @SerializedName("loom_no")
   private String loomNumber;
-  @SerializedName("lastReading")
+  @SerializedName("end_reading")
   private String lastReading;
   @SerializedName("date")
   private String date;
@@ -21,7 +21,7 @@ public class DataModel {
   private String quality;
   @SerializedName("shift")
   private String shift;
-  @SerializedName("messSize")
+  @SerializedName("type")
   private String messSize;
   @SerializedName("status")
   private String status;
