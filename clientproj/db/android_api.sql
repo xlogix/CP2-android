@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 03, 2017 at 05:28 AM
+-- Host: localhost
+-- Generation Time: Jul 11, 2017 at 03:06 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -57,6 +59,7 @@ CREATE TABLE `entry` (
   `emp_name` varchar(250) CHARACTER SET utf8 NOT NULL,
   `start_reading` varchar(250) CHARACTER SET utf8 NOT NULL,
   `end_reading` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `status` varchar(50) CHARACTER SET utf8 NOT NULL,
   `production` varchar(250) CHARACTER SET utf8 NOT NULL,
   `type` varchar(250) CHARACTER SET utf8 NOT NULL,
   `remarks` varchar(250) CHARACTER SET utf8 NOT NULL,
@@ -68,23 +71,24 @@ CREATE TABLE `entry` (
 -- Dumping data for table `entry`
 --
 
-INSERT INTO `entry` (`id`, `entry_date`, `shift`, `loom_no`, `quality`, `emp_code`, `emp_name`, `start_reading`, `end_reading`, `production`, `type`, `remarks`, `ts`, `user_log`) VALUES
-(12, '2017-06-05', 'DAY', '222', 'TEST', '111', 'TEST', '1111', '5555', '4444', '11*11', 'undefined', '1496644865', 'admin@gmail.com'),
-(13, '2017-06-06', 'DAY', '141', 'TEST', '111', 'TEST', '444', '5555', '5111', '11*11', 'undefined', '1496750019', 'test1@gmail.com'),
-(14, '2017-06-06', 'NIGHT', '456', 'TEST', '222', 'TEST2', '144', '555', '411', '11*11', 'undefined', '1496750051', 'test1@gmail.com'),
-(15, '2017-06-06', 'NIGHT', '444', 'TEST', '111', 'TEST', '444', '555', '111', '11*11', 'undefined', '1496750596', 'test1@gmail.com'),
-(16, '2017-06-06', 'NIGHT', '444', 'TEST', '111', 'TEST', '444', '555', '111', '11*11', 'undefined', '1496750751', 'test1@gmail.com'),
-(17, '2017-06-07', 'DAY', '111', 'TEST', '111', 'TEST', '444', '9999', '9555', '10*10', 'TEST', '1496817317', 'test1@gmail.com'),
-(18, '2017-06-07', 'DAY', '444', 'TEST', '111', 'TEST', '444', '1495', '1051', '10*10', 'TEST', '1496828393', 'test1@gmail.com'),
-(19, '2017-06-07', 'DAY', '555', 'TEST', '111', 'TEST', '444', '12345', '11901', '10*10', 'TEST', '1496829899', 'test1@gmail.com'),
-(20, '2017-06-07', 'DAY', '111', 'TEST', '111', 'TEST', '444', '666', '222', '11*11', 'TEST', '1496830020', 'test1@gmail.com'),
-(21, '2017-06-15', 'DAY', '444', '', '111', 'TEST', '4444', '5555', '1111', '10*10', '', '1497528296', 'admin@gmail.com'),
-(24, '2017-06-18', 'Night', '222', 'TEST', '222', 'TEST', '0712', '0750', '38', '12*12', '', '1497793366', 'test1@gmail.com'),
-(25, '2017-06-24', 'Day', '12', '', '121', '', '1234', '1254', '20', '10*10', '', '1498286488', 'admin@gmail.com'),
-(26, '2017-06-25', 'Day/Night', '11', 'ans', '225', 'avi', '1675', '1680', '5', '11*11', '', '1498334369', 'admin@gmail.com'),
-(27, '2017-06-25', 'Day/Night', '', '', '', '', '', '', '', 'Mess', '', '1498388931', 'test1@gmail.com'),
-(28, '2017-06-25', 'Day/Night', '', '', '', '', '', '', '', 'Mess', '', '1498388942', 'test1@gmail.com'),
-(29, '2017-06-26', 'Day', '12', 'an', '121', 'teat', '1234', '', '', '11*11', '', '1498472501', 'admin@gmail.com');
+INSERT INTO `entry` (`id`, `entry_date`, `shift`, `loom_no`, `quality`, `emp_code`, `emp_name`, `start_reading`, `end_reading`, `status`, `production`, `type`, `remarks`, `ts`, `user_log`) VALUES
+(12, '2017-06-05', 'DAY', '222', 'TEST', '111', 'TEST', '1111', '', 'Drawing', '4444', '11*11', 'undefined', '1496644865', 'admin@gmail.com'),
+(13, '2017-06-06', 'DAY', '141', 'TEST', '111', 'TEST', '444', '5555', '', '5111', '11*11', 'undefined', '1496750019', 'test1@gmail.com'),
+(14, '2017-06-06', 'NIGHT', '456', 'TEST', '222', 'TEST2', '144', '555', '', '411', '11*11', 'undefined', '1496750051', 'test1@gmail.com'),
+(15, '2017-06-06', 'NIGHT', '444', 'TEST', '111', 'TEST', '444', '555', '', '111', '11*11', 'undefined', '1496750596', 'cool@gmail.com'),
+(16, '2017-06-06', 'NIGHT', '444', 'TEST', '111', 'TEST', '444', '555', '', '111', '11*11', 'undefined', '1496750751', 'test1@gmail.com'),
+(17, '2017-06-07', 'DAY', '111', 'TEST', '111', 'TEST', '444', '9999', '', '9555', '10*10', 'TEST', '1496817317', 'test1@gmail.com'),
+(18, '2017-06-07', 'DAY', '444', 'TEST', '111', 'TEST', '444', '1495', '', '1051', '10*10', 'TEST', '1496828393', 'test1@gmail.com'),
+(19, '2017-06-07', 'DAY', '555', 'TEST', '111', 'TEST', '444', '12345', '', '11901', '10*10', 'TEST', '1496829899', 'test1@gmail.com'),
+(20, '2017-06-07', 'DAY', '111', 'TEST', '111', 'TEST', '444', '666', '', '222', '11*11', 'TEST', '1496830020', 'test1@gmail.com'),
+(21, '2017-06-15', 'DAY', '444', '', '111', 'TEST', '4444', '5555', '', '1111', '10*10', '', '1497528296', 'admin@gmail.com'),
+(24, '2017-06-18', 'Night', '222', 'TEST', '222', 'TEST', '0712', '0750', '', '38', '12*12', '', '1497793366', 'test1@gmail.com'),
+(25, '2017-06-24', 'Day', '12', '', '121', '', '1234', '1254', '', '20', '10*10', '', '1498286488', 'admin@gmail.com'),
+(26, '2017-06-25', 'Day/Night', '11', 'ans', '225', 'avi', '1675', '1680', '', '5', '11*11', '', '1498334369', 'admin@gmail.com'),
+(27, '2017-06-25', 'Day/Night', '', '', '', '', '', '', '', '', 'Mess', '', '1498388931', 'test1@gmail.com'),
+(28, '2017-06-25', 'Day/Night', '', '', '', '', '', '', '', '', 'Mess', '', '1498388942', 'test1@gmail.com'),
+(29, '2017-06-26', 'Day', '12', 'an', '121', 'teat', '1234', '', '', '', '11*11', '', '1498472501', 'admin@gmail.com'),
+(30, '0000-00-00', 'DAY', '99', '', '1234', 'AB', '1', '', '', '', '11', 'zome', '', '');
 
 -- --------------------------------------------------------
 
@@ -166,7 +170,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `name`, `designation`, `member_from`, `password`, `member_type`) VALUES
 (1, 'test1@gmail.com', 'Test1', 'Web Developer', '01-01-2017', 'e10adc3949ba59abbe56e057f20f883e', 'user'),
 (2, 'test2@gmail.com', 'Test2', 'Web Developer', '01-01-2017', 'e10adc3949ba59abbe56e057f20f883e', 'user'),
-(3, 'admin@gmail.com', 'Admin', 'Admin', '01-01-2017', 'e10adc3949ba59abbe56e057f20f883e', 'admin');
+(3, 'admin@gmail.com', 'Admin', 'Admin', '01-01-2017', 'e10adc3949ba59abbe56e057f20f883e', 'admin'),
+(4, 'abc@xyz.com', '', '', '', '123456', 'user');
 
 --
 -- Indexes for dumped tables
@@ -209,7 +214,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `entry`
 --
 ALTER TABLE `entry`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `mess_matrix`
 --
@@ -219,7 +224,8 @@ ALTER TABLE `mess_matrix`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

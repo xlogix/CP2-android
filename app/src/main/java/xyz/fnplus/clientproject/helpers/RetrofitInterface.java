@@ -11,9 +11,9 @@ import xyz.fnplus.clientproject.models.DataModel;
  */
 
 public interface RetrofitInterface {
-    @FormUrlEncoded @POST("get_loom.php") Call<DataModel> getLoomInfo(
-        @Field("loom_no") String loomNo);
+  @FormUrlEncoded @POST("get_loom.php") Call<DataModel> getLoomInfo(
+      @Field("loom_no") String loomNo);
 
-    @FormUrlEncoded
-    @POST("set_loom.php") Call<Void> setLoomInfo(@Field("loom_no") String loomdetails);
+  @FormUrlEncoded @POST("set_loom.php") Call<Void> setLoomInfo(
+      @Field("loom_no") String loomdetails);
 }

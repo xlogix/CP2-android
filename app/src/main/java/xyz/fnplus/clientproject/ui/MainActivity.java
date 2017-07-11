@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -188,7 +189,8 @@ public class MainActivity extends AppCompatActivity {
             (EditText) d.findViewById(R.id.textView_day_Openreading);
         final EditText mTextViewDayClosereading =
             (EditText) d.findViewById(R.id.textView_day_Closereading);
-        final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
+        final EditText mEditTxtRemark =
+            (EditText) d.findViewById(R.id.edit_txt_remark);
 
         if (!selectedItem.equals("No Data To Display- ")) {
           DataModel.EmpRecord record =
@@ -276,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
       Call<DataModel> call = client.getLoomInfo(mEditTxtLoom.getText().toString());
       call.enqueue(new Callback<DataModel>() {
         @Override
-        public void onResponse(Call<DataModel> call, Response<DataModel> response) {
+        public void onResponse(@Nullable Call<DataModel> call, @Nullable Response<DataModel> response) {
           if (response.isSuccessful()) {
 
             DataModel dm = response.body();

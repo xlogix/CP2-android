@@ -37,6 +37,7 @@ while($row_data = mysqli_fetch_assoc($details)) {
         $response["start_reading"] = $loom_data["start_reading"];
         $response["end_reading"] = $loom_data["end_reading"];
         $response["loom_no"] = $loom_data["loom_no"];
+        $response["status"] = $loom_data["status"];
         $response["quality"] = $loom_data["quality"];
         $response["type"] = $loom_data["type"];
         $response["shift"] = $loom_data["shift"];

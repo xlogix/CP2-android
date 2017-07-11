@@ -18,7 +18,7 @@ public class RetrofitBuilder {
     public static OkHttpClient.Builder httpClient =
             new OkHttpClient.Builder().addNetworkInterceptor(new StethoInterceptor());
 
-    //Single Instance of Builder
+    // Single Instance of Builder
     public static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(URL_API)

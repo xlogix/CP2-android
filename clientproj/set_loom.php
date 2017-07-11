@@ -22,8 +22,8 @@ $conn1 = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
      
 if (isset($_REQUEST['date']) && isset($_REQUEST['shift']) && isset($_REQUEST['loom_no']) && isset($_REQUEST['quality'])
 	&& isset($_REQUEST['type']) && isset($_REQUEST['emp_code']) && isset($_REQUEST['emp_name']) 
-	&& isset($_REQUEST['start_reading']) && isset($_REQUEST['end_reading']) && isset($_REQUEST['remarks']) 
-	&& isset($_REQUEST['time']))
+	&& isset($_REQUEST['start_reading']) && isset($_REQUEST['end_reading']) && isset($_REQUEST['remarks'])  
+	&& isset($_REQUEST['time']) && isset($_REQUEST['status']))
 	 {
 		// Setting the paramters
 		$date = $_REQUEST['date'];
@@ -35,12 +35,13 @@ if (isset($_REQUEST['date']) && isset($_REQUEST['shift']) && isset($_REQUEST['lo
 		$emp_name = $_REQUEST['emp_name'];
 		$start_reading = $_REQUEST['start_reading'];
 		$end_reading = $_REQUEST['end_reading'];
+		$status = $_REQUEST['status'];
 		$remarks = $_REQUEST['remarks'];
 		$time = $_REQUEST['time'];
 
 		$stmt = "INSERT INTO entry (entry_date, shift, loom_no, quality, emp_code, emp_name, start_reading, 
-		end_reading, type, remarks) VALUES ('$date', '$shift', '$loom_no', '$quality', '$emp_code', '$emp_name', 
-		'$start_reading', '$end_reading', '$type', '$remarks', '$time')";
+		end_reading, status, type, remarks) VALUES ('$date', '$shift', '$loom_no', '$quality', '$emp_code', '$emp_name', 
+		'$start_reading', '$end_reading', '$status', $type', '$remarks', '$time')";
 
 		$data=mysqli_query($conn1,$stmt);
 

@@ -170,6 +170,7 @@
           android:layout_marginTop="16dp"
           android:hint="Remark"
           android:inputType="text"
+          android:text="Sample Remark"
           />
     </android.support.design.widget.TextInputLayout>
   </LinearLayout>
