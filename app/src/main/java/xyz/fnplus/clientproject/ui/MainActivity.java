@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
         if (!selectedItem.equals("No Data To Display- ")) {
           DataModel.EmpRecord record =
               mEmployeeHashMap.get(selectedItem.substring(0, selectedItem.indexOf(" ")));
-          mTxtEmpCode.setText(selectedItem.substring(0, selectedItem.indexOf(" ")).substring(2));
+          mTxtEmpCode.setText(record.getEmpCode());
           mEditTxtRemark.setText(record.getRemarks());
           mTxtEmpName.setText(record.getEmpName());
           mTxtEmpCode.setEnabled(false);
@@ -524,6 +524,7 @@ public class MainActivity extends AppCompatActivity {
     final EditText mTextViewDayCloseReading =
         (EditText) d.findViewById(R.id.textView_day_Closereading);
     final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
+    if (LastReading != null && !LastReading.isEmpty())
     mTextViewDayOpenReading.setText(LastReading.substring(0, LastReading.indexOf(',')));
     // On Click
     mCancel.setOnClickListener(new View.OnClickListener() {
