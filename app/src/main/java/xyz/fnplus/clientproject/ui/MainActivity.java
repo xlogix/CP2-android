@@ -56,93 +56,63 @@ import xyz.fnplus.clientproject.models.DataModel;
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = MainActivity.class.getSimpleName();
 
-  @BindView(R.id.edit_txt_loom)
-  EditText mEditTxtLoom;
+  @BindView(R.id.edit_txt_loom) EditText mEditTxtLoom;
 
-  @BindView(R.id.btn_loom_submit)
-  AppCompatButton mBtnLoomSubmit;
+  @BindView(R.id.btn_loom_submit) AppCompatButton mBtnLoomSubmit;
 
-  @BindView(R.id.txt_last_reading)
-  TextView mTxtLastReading;
+  @BindView(R.id.txt_last_reading) TextView mTxtLastReading;
 
-  @BindView(R.id.db_last_reading)
-  TextView mDbLastReading;
+  @BindView(R.id.db_last_reading) TextView mDbLastReading;
 
-  @BindView(R.id.textView)
-  AutoCompleteTextView mTextView;
+  @BindView(R.id.textView) AutoCompleteTextView mTextView;
 
-  @BindView(R.id.txt_mess_size)
-  TextView mTxtMessSize;
+  @BindView(R.id.txt_mess_size) TextView mTxtMessSize;
 
-  @BindView(R.id.rb_mess1)
-  RadioButton mRbMess1;
+  @BindView(R.id.rb_mess1) RadioButton mRbMess1;
 
-  @BindView(R.id.rb_mess2)
-  RadioButton mRbMess2;
+  @BindView(R.id.rb_mess2) RadioButton mRbMess2;
 
-  @BindView(R.id.rb_mess3)
-  RadioButton mRbMess3;
+  @BindView(R.id.rb_mess3) RadioButton mRbMess3;
 
-  @BindView(R.id.rb_mess4)
-  RadioButton mRbMess4;
-  @BindView(R.id.rg_mess)
-  RadioGroup mRgMess;
+  @BindView(R.id.rb_mess4) RadioButton mRbMess4;
+  @BindView(R.id.rg_mess) RadioGroup mRgMess;
 
-  @BindView(R.id.txt_status)
-  TextView mTxtStatus;
+  @BindView(R.id.txt_status) TextView mTxtStatus;
 
-  @BindView(R.id.rb_status1)
-  RadioButton mRbStatus1;
-  @BindView(R.id.rb_status2)
-  RadioButton mRbStatus2;
+  @BindView(R.id.rb_status1) RadioButton mRbStatus1;
+  @BindView(R.id.rb_status2) RadioButton mRbStatus2;
 
-  @BindView(R.id.rb_status3)
-  RadioButton mRbStatus3;
+  @BindView(R.id.rb_status3) RadioButton mRbStatus3;
 
-  @BindView(R.id.rb_status4)
-  RadioButton mRbStatus4;
+  @BindView(R.id.rb_status4) RadioButton mRbStatus4;
 
-  @BindView(R.id.rb_status5)
-  RadioButton mRbStatus5;
+  @BindView(R.id.rb_status5) RadioButton mRbStatus5;
 
-  @BindView(R.id.rg_status)
-  RadioGroup mRgStatus;
+  @BindView(R.id.rg_status) RadioGroup mRgStatus;
 
-  @BindView(R.id.btn_details_submit)
-  AppCompatButton mBtnDetailsSubmit;
+  @BindView(R.id.btn_details_submit) AppCompatButton mBtnDetailsSubmit;
 
-  @BindView(R.id.app_bar)
-  AppBarLayout mAppBar;
+  @BindView(R.id.app_bar) AppBarLayout mAppBar;
 
-  @BindView(R.id.shiftdate)
-  EditText mShiftdate;
+  @BindView(R.id.shiftdate) EditText mShiftdate;
 
-  @BindView(R.id.rb_day)
-  RadioButton mRbDay;
+  @BindView(R.id.rb_day) RadioButton mRbDay;
 
-  @BindView(R.id.rb_night)
-  RadioButton mRbNight;
+  @BindView(R.id.rb_night) RadioButton mRbNight;
 
-  @BindView(R.id.rg_shift_details)
-  RadioGroup mRgShiftDetails;
+  @BindView(R.id.rg_shift_details) RadioGroup mRgShiftDetails;
 
-  @BindView(R.id.form_layout)
-  LinearLayout mFormLayout;
+  @BindView(R.id.form_layout) LinearLayout mFormLayout;
 
-  @BindView(R.id.txt_last_reading_date)
-  TextView mTxtLastReadingDate;
+  @BindView(R.id.txt_last_reading_date) TextView mTxtLastReadingDate;
 
-  @BindView(R.id.txt_last_reading_shift)
-  TextView mTxtLastReadingShift;
+  @BindView(R.id.txt_last_reading_shift) TextView mTxtLastReadingShift;
 
-  @BindView(R.id.btn_add_emp)
-  ImageButton mBtnAddEmp;
+  @BindView(R.id.btn_add_emp) ImageButton mBtnAddEmp;
 
-  @BindView(R.id.list_view)
-  ListView mListView;
+  @BindView(R.id.list_view) ListView mListView;
 
-  @BindView(R.id.btn_details_reset)
-  AppCompatButton mBtnDetailsReset;
+  @BindView(R.id.btn_details_reset) AppCompatButton mBtnDetailsReset;
 
   private String LastReading;
   private String OpenReading;
@@ -151,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
   private ProgressDialog mProgressDialog;
   private HashMap<String, DataModel.EmpRecord> mEmployeeHashMap;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     // Bind View
@@ -175,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
     mEmployeeHashMap = new HashMap<>();
 
     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+      @Override public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         final String selectedItem = (String) mListView.getItemAtPosition(i);
         final Dialog d = new Dialog(MainActivity.this);
         d.setContentView(R.layout.card_view_emp_details_dialog);
@@ -188,9 +156,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText mTextViewDayOpenreading =
             (EditText) d.findViewById(R.id.textView_day_Openreading);
         final EditText mTextViewDayClosereading =
-            (EditText) d.findViewById(R.id.textView_day_Closereading);
-        final EditText mEditTxtRemark =
-            (EditText) d.findViewById(R.id.edit_txt_remark);
+            (EditText) d.findViewById(R.id.textView_day_close_reading);
+        final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
 
         if (!selectedItem.equals("No Data To Display- ")) {
           DataModel.EmpRecord record =
@@ -206,8 +173,7 @@ public class MainActivity extends AppCompatActivity {
         Button mCancel = (Button) d.findViewById(R.id.btn_dialog_cancel);
         mCancel.setText("Delete");
         mCancel.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
+          @Override public void onClick(View view) {
             mEmployeeHashMap.remove(selectedItem.substring(0, selectedItem.indexOf(" ")));
             updateListView();
             d.dismiss();
@@ -217,23 +183,25 @@ public class MainActivity extends AppCompatActivity {
         d.show();
 
         mConfirm.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
+          @Override public void onClick(View view) {
             boolean validate = true;
 
             if (TextUtils.isEmpty(mTxtEmpName.getText().toString())) {
               validate = false;
 
-              mTxtEmpCode.setError("Enter employee name");
-              Toast.makeText(MainActivity.this, "Enter employee name", Toast.LENGTH_SHORT).show();
+              mTxtEmpCode.setError("Enter Employee name");
+              Toast.makeText(MainActivity.this, "Enter Employee name", Toast.LENGTH_SHORT).show();
             }
             if (!TextUtils.isEmpty(mTextViewDayOpenreading.getText().toString())
                 && !TextUtils.isEmpty(mTextViewDayClosereading.getText().toString())) {
               if (Integer.parseInt(mTextViewDayOpenreading.getText().toString()) > Integer.parseInt(
                   mTextViewDayClosereading.getText().toString())) {
                 validate = false;
-                mTxtEmpCode.setError("Close Reading Should Be Greater than Opening reading");
-                Toast.makeText(MainActivity.this, "Enter Employee Name", Toast.LENGTH_SHORT).show();
+                // Set error
+                mTextViewDayClosereading.setError("");
+                Toast.makeText(MainActivity.this,
+                    "Close reading should be greater than opening reading", Toast.LENGTH_SHORT)
+                    .show();
               }
             }
             if (validate) {
@@ -255,8 +223,7 @@ public class MainActivity extends AppCompatActivity {
     });
   }
 
-  @OnClick(R.id.btn_loom_submit)
-  public void onMBtnLoomSubmitClicked(final View view) {
+  @OnClick(R.id.btn_loom_submit) public void onMBtnLoomSubmitClicked(final View view) {
     // show changes in UI
     showProgressDialog();
     try {
@@ -277,8 +244,8 @@ public class MainActivity extends AppCompatActivity {
       RetrofitInterface client = RetrofitBuilder.createService(RetrofitInterface.class);
       Call<DataModel> call = client.getLoomInfo(mEditTxtLoom.getText().toString());
       call.enqueue(new Callback<DataModel>() {
-        @Override
-        public void onResponse(@Nullable Call<DataModel> call, @Nullable Response<DataModel> response) {
+        @Override public void onResponse(@Nullable Call<DataModel> call,
+            @Nullable Response<DataModel> response) {
           if (response.isSuccessful()) {
 
             DataModel dm = response.body();
@@ -296,8 +263,7 @@ public class MainActivity extends AppCompatActivity {
               mBtnDetailsReset.setEnabled(false);
               setShiftFromCurrentTime();
               Snackbar.make(view, "No Loom found. Fill the details for that Loom",
-                  Snackbar.LENGTH_LONG)
-                  .setAction("Action", null).show();
+                  Snackbar.LENGTH_LONG).setAction("Action", null).show();
             } else {
               // Clear previous data
               clearDataInView();
@@ -309,15 +275,15 @@ public class MainActivity extends AppCompatActivity {
               // Form
               mFormLayout.setVisibility(View.VISIBLE);
               Snackbar.make(view, "Last record of the Loom fetched!", Snackbar.LENGTH_LONG)
-                  .setAction("Action", null).show();
+                  .setAction("Action", null)
+                  .show();
               setDataToView(dm);
 
               mBtnDetailsReset.setEnabled(true);
             }
           } else {
             Snackbar.make(view, "Server Response Error" + response.errorBody(),
-                Snackbar.LENGTH_LONG)
-                .show();
+                Snackbar.LENGTH_LONG).show();
           }
         }
 
@@ -329,8 +295,7 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @OnClick(R.id.btn_details_submit)
-  public void onMBtnDetailsSubmitClicked(final View v) {
+  @OnClick(R.id.btn_details_submit) public void onMBtnDetailsSubmitClicked(final View v) {
     // show changes in UI
     showProgressDialog();
     // Logic
@@ -345,13 +310,17 @@ public class MainActivity extends AppCompatActivity {
 
       DataModel model = new DataModel(mEditTxtLoom.getText().toString(), LastReading,
           mShiftdate.getText().toString(), shift.getText().toString(),
-          messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, LastReading,
+          messSize.getText().toString(), status.getText().toString(), LastReading,
           LastReading, mTextView.getText().toString());
       String json = gson.toJson(model, DataModel.class);
+      // Show in Logs
+      Log.d(TAG, json);
+
       Call<Void> call = client.setLoomInfo(json);
       call.enqueue(new Callback<Void>() {
         @Override public void onResponse(Call<Void> call, Response<Void> response) {
           if (response.isSuccessful()) {
+            // Show in UI
             hideProgressDialog();
             Snackbar.make(v, "Data sent! Loom Updated", Snackbar.LENGTH_LONG).show();
             mFormLayout.setVisibility(View.GONE);
@@ -404,8 +373,7 @@ public class MainActivity extends AppCompatActivity {
     return validate;
   }
 
-  @OnClick(R.id.shiftdate)
-  public void onViewClicked() {
+  @OnClick(R.id.shiftdate) public void onViewClicked() {
 
     Calendar newCalendar = Calendar.getInstance();
 
@@ -509,8 +477,7 @@ public class MainActivity extends AppCompatActivity {
     mRgShiftDetails.clearCheck();
   }
 
-  @OnClick(R.id.btn_add_emp)
-  public void onAddEmployeeClicked() {
+  @OnClick(R.id.btn_add_emp) public void onAddEmployeeClicked() {
     final Dialog d = new Dialog(this);
     d.setContentView(R.layout.card_view_emp_details_dialog);
     d.setTitle("Enter Employee Details");
@@ -522,21 +489,20 @@ public class MainActivity extends AppCompatActivity {
     final EditText mTextViewDayOpenReading =
         (EditText) d.findViewById(R.id.textView_day_Openreading);
     final EditText mTextViewDayCloseReading =
-        (EditText) d.findViewById(R.id.textView_day_Closereading);
+        (EditText) d.findViewById(R.id.textView_day_close_reading);
     final EditText mEditTxtRemark = (EditText) d.findViewById(R.id.edit_txt_remark);
-    if (LastReading != null && !LastReading.isEmpty())
-    mTextViewDayOpenReading.setText(LastReading.substring(0, LastReading.indexOf(',')));
+    if (LastReading != null && !LastReading.isEmpty()) {
+      mTextViewDayOpenReading.setText(LastReading.substring(0, LastReading.indexOf(',')));
+    }
     // On Click
     mCancel.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
+      @Override public void onClick(View view) {
         d.dismiss();
       }
     });
     d.show();
     mConfirm.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
+      @Override public void onClick(View view) {
         boolean validate = true;
         if (TextUtils.isEmpty(mTxtEmpCode.getText().toString())) {
           validate = false;
@@ -593,8 +559,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter =
         new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1,
             items) {
-          @NonNull
-          public View getView(int position, View convertView, ViewGroup parent) {
+          @NonNull public View getView(int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
             TextView text1 = (TextView) view.findViewById(android.R.id.text1);
             TextView text2 = (TextView) view.findViewById(android.R.id.text2);
@@ -661,25 +626,39 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @OnClick(R.id.btn_details_reset)
-  public void onResetClicked(final View v) {
+  @OnClick(R.id.btn_details_reset) public void onResetClicked(final View v) {
     if (mEmployeeHashMap == null || mEmployeeHashMap.isEmpty()) {
       Snackbar.make(v, "You can't reset the loom without emp data", Toast.LENGTH_SHORT).show();
     } else {
+      // Resetting the data, UI
+
+      hideProgressDialog();
+
+      clearDataInView();
+      mFormLayout.setVisibility(View.GONE);
+      // Clear data and focus from the view
+      mEditTxtLoom.clearFocus();
+      mEditTxtLoom.setText(null);
+      Snackbar.make(v, "Reset was successful!", Snackbar.LENGTH_LONG).show();
+
+      /*
       Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.DATE, 1);
       SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy", Locale.UK);
       mEmployeeHashMap.clear();
+
       RetrofitInterface client = RetrofitBuilder.createService(RetrofitInterface.class);
       Gson gson = new Gson();
 
       RadioButton shift = (RadioButton) findViewById(mRgShiftDetails.getCheckedRadioButtonId());
       RadioButton messSize = (RadioButton) findViewById(mRgMess.getCheckedRadioButtonId());
       RadioButton status = (RadioButton) findViewById(mRgStatus.getCheckedRadioButtonId());
+
       DataModel model = new DataModel(mEditTxtLoom.getText().toString(), LastReading,
           sdf.format(calendar), shift.getText().toString(),
           messSize.getText().toString(), status.getText().toString(), mEmployeeHashMap, LastReading,
           LastReading, mTextView.getText().toString());
+
       String json = gson.toJson(model, DataModel.class);
       Call<Void> call = client.setLoomInfo(json);
       call.enqueue(new Callback<Void>() {
@@ -695,15 +674,15 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(v, "Something went wrong with server. Try Again" + response.errorBody(),
                 Snackbar.LENGTH_LONG).show();
           }
-        }
+        }*/
 
-        @Override public void onFailure(Call<Void> call, Throwable t) {
+        /*@Override public void onFailure(Call<Void> call, Throwable t) {
           // UI
           hideProgressDialog();
           Snackbar.make(v, "Something went wrong with server. Try Again." + t.getMessage(),
               Snackbar.LENGTH_SHORT).show();
         }
-      });
+      });*/
     }
   }
 
@@ -738,15 +717,13 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_scrolling, menu);
     return true;
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.

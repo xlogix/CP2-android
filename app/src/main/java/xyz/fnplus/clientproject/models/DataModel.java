@@ -34,8 +34,7 @@ public class DataModel {
   }
 
   public DataModel(String loomNumber, String lastReading, String date, String shift,
-      String messSize, String status,
-      HashMap<String, EmpRecord> emplist, String openReading, String closeReading,
+      String messSize, String status, String openReading, String closeReading,
       String quality) {
     this.loomNumber = loomNumber;
     this.lastReading = lastReading;
@@ -43,7 +42,7 @@ public class DataModel {
     this.shift = shift;
     this.messSize = messSize;
     this.status = status;
-    this.emplist = emplist;
+    // this.emplist = emplist;
 
     this.quality = quality;
 
